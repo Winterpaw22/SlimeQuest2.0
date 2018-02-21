@@ -52,6 +52,7 @@ namespace SlimeQuest
 
             windows = InitializeWindowScreens();
             Console.ReadLine();
+            Console.Clear();
         }
     }
 }
