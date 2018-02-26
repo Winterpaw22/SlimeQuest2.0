@@ -1,0 +1,5 @@
+Textbox = 6,46 bottom 52 end 101
+Status Box = 110,8 bottom 24 end 147
+Menu box = 110, 29 bottom 53 end 147 
+input box = 7,57 bottom 58 end 148
+middle of screen 55, 26

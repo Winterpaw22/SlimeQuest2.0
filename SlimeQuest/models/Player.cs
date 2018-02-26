@@ -12,13 +12,13 @@ namespace SlimeQuest
         {
             Human,
             Slime,
+            Elve,
             Orc
         }
 
 
 
         private string _name;
-
         private int _xPosition;
         private int _yPosition;
         private Race _race;
@@ -45,6 +45,8 @@ namespace SlimeQuest
             get { return _race; }
             set { _race = value; }
         }
+
+
 
 
     }

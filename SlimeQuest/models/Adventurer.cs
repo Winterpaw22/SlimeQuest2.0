@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlimeQuest.models
+namespace SlimeQuest
 {
     class Adventurer : Player
     {
@@ -34,8 +34,11 @@ namespace SlimeQuest.models
         private int _health;
         private Location _location;
         private Weapon _weapon;
+        private Windows[] windows;
 
         
+
+
 
 
         public int Health
@@ -61,6 +64,12 @@ namespace SlimeQuest.models
         {
             get { return _weapon; }
             set { _weapon = value; }
+        }
+
+        public Windows[] GameWindows
+        {
+            get { return windows; }
+            set { windows = value; }
         }
 
     }

@@ -51,5 +51,7 @@ namespace SlimeQuest
             Console.SetCursorPosition(70,25);
             Console.Write("Slime Quest");
         }
+
+
     }
 }

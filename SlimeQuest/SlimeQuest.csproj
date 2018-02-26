@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Controllers\Map.cs" />
+    <Compile Include="Controllers\Validators.cs" />
     <Compile Include="Controllers\windowCreator.cs" />
     <Compile Include="models\Adventurer.cs" />
     <Compile Include="models\Player.cs" />
     <Compile Include="models\Windows.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\TextBoxViews.cs" />
     <Compile Include="Views\WindowConfig.cs" />
   </ItemGroup>
   <ItemGroup>
