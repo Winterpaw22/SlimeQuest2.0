@@ -15,7 +15,7 @@ Flesh out World and Locations
 
 Create a Method for drawing houses to the screen along with foiliage
 
-Make the houses accessable
+Make the houses accessable 4 v 3 >
 
 Draw in a room to move around in
 
@@ -24,3 +24,7 @@ Restrict movement to only the room
 Place NPC in the room
 
 Make the quest for return home trigger
+
+Restrict movement onto house walls and roof
+
+STYLING house

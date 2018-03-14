@@ -65,7 +65,5 @@ namespace SlimeQuest
             get { return _prevLoc; }
             set { _prevLoc = value; }
         }
-
-
     }
 }

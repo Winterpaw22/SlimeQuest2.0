@@ -39,27 +39,44 @@ namespace SlimeQuest
             {
                 foreach (House house in universe.HouseList)
                 {
-                    DisplayHouse(house.Xpos, house.Ypos);
+                    switch (adventurer.MapLocation)
+                    {
+                        case Humanoid.Location.TutTown:
+                            DisplayHouse(house.Xpos, house.Ypos,house.HouseColor);
+                            break;
+                        case Humanoid.Location.DefaultNameTown:
+                            DisplayHouse(house.Xpos, house.Ypos,house.HouseColor);
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
             }
         }
-        public static void DisplayHouse(int startx,int starty)
+        public static void DisplayHouse(int startx,int starty,ConsoleColor color)
         {
+            Console.ForegroundColor = color;
             Console.SetCursorPosition(startx + 1,starty);
-            Console.Write("__");
+            Console.Write("_____");
             Console.SetCursorPosition(startx, starty + 1);
             Console.Write("/");
             Console.SetCursorPosition(startx, starty + 2);
             Console.Write("|");
             Console.SetCursorPosition(startx, starty + 3);
-            Console.Write("_|");
-            Console.SetCursorPosition(startx + 2, starty + 3);
-            Console.Write("|_");
+            Console.Write("|_|");
+
+            Console.SetCursorPosition(startx + 3, starty + 2);
+            Console.Write("_");
+
+            Console.SetCursorPosition(startx + 4, starty + 3);
+            Console.Write("|_|");
             
-            Console.SetCursorPosition(startx + 5, starty + 1);
+            Console.SetCursorPosition(startx + 6, starty + 1);
             Console.Write("\\");
-            Console.SetCursorPosition(startx + 5, starty + 2);
+            Console.SetCursorPosition(startx + 6, starty + 2);
             Console.Write("|");
+            Console.ForegroundColor = ConsoleColor.Black;
         }
     }
 }

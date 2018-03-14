@@ -196,6 +196,8 @@ namespace SlimeQuest
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
 
+            adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
+
             return adventurer;
         }
         public static Adventurer GetPlayerInfo( Windows[] windows)
@@ -249,6 +251,9 @@ namespace SlimeQuest
             adventurer.MapLocation = Adventurer.Location.TutTown;
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
+
+            adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
+
             return adventurer;
         }
         #endregion
@@ -291,6 +296,8 @@ namespace SlimeQuest
             Console.Write("2. Look around");
             Console.SetCursorPosition(112, 34);
             Console.Write("3. Talk");
+            Console.SetCursorPosition(112, 35);
+            Console.Write("4. Locations");
         }
 
         /// <summary>

@@ -54,6 +54,7 @@ namespace SlimeQuest
                         {
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = town.TownLocName;
+                            adventurer.PreviousLocations.Add(adventurer.MapLocation);
                         }
                     }
                     break;
@@ -64,7 +65,7 @@ namespace SlimeQuest
                         adventurer.MapLocation = Humanoid.Location.MainWorld;
                         adventurer.Xpos = universe.TownList[0].Xpos;
                         adventurer.Ypos = universe.TownList[0].Ypos;
-
+                        adventurer.PreviousLocations.Add(adventurer.MapLocation);
                     }
                     break;
                 case Humanoid.Location.DefaultNameTown:
@@ -75,6 +76,7 @@ namespace SlimeQuest
 
                         adventurer.Xpos = universe.TownList[1].Xpos;
                         adventurer.Ypos = universe.TownList[1].Ypos;
+                        adventurer.PreviousLocations.Add(adventurer.MapLocation);
                     }
                     break;
                 case Humanoid.Location.Cave:
@@ -85,6 +87,7 @@ namespace SlimeQuest
 
                         adventurer.Xpos = universe.TownList[3].Xpos;
                         adventurer.Ypos = universe.TownList[3].Ypos;
+                        adventurer.PreviousLocations.Add(adventurer.MapLocation);
                     }
                     break;
                 default:
@@ -113,10 +116,12 @@ namespace SlimeQuest
                 case Humanoid.Location.TutTown:
                     CheckNPCMap(universe, Humanoid.Location.TutTown);
                     DisplayMap.DisplayNPC(universe);
+                    DisplayMap.DisplayHouses(universe, adventurer);
                     break;
                 case Humanoid.Location.DefaultNameTown:
                     CheckNPCMap(universe, Humanoid.Location.DefaultNameTown);
                     DisplayMap.DisplayNPC(universe);
+                    DisplayMap.DisplayHouses(universe, adventurer);
                     break;
                 case Humanoid.Location.Cave:
                     CheckNPCMap(universe, Humanoid.Location.Cave);
@@ -155,6 +160,17 @@ namespace SlimeQuest
                     town.InTown = false;
                 }
             }
+        }
+
+        public static void PlayerLocationss(Adventurer adventurer,Universe universe)
+        {
+            string message = "Where ive been in order :";
+            foreach (var location in adventurer.PreviousLocations)
+            {
+                message += location.ToString();
+                message += ", ";
+            }
+            TextBoxViews.WriteToMessageBox(universe, message);
         }
 
         public static void NPCTalk(Adventurer adventurer, Universe universe)
@@ -264,6 +280,7 @@ namespace SlimeQuest
                     NPCTalk(adventurer,universe);
                     break;
                 case ConsoleKey.NumPad4:
+                    PlayerLocationss(adventurer,universe);
                     break;
                 case ConsoleKey.NumPad5:
                     break;

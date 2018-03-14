@@ -12,6 +12,7 @@ namespace SlimeQuest
         public List<string> messages { get; set; }
         public int listCurrent { get; set; }
         public int listMax { get; set; }
+        public bool trigger { get; set; }
 
         public bool present { get; set; }
         public string greeting { get; set; }
@@ -19,6 +20,8 @@ namespace SlimeQuest
         {
             return $"{greeting} , {adventurer.Name}";
         }
+
     }
+
 }
 

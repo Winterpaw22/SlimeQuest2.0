@@ -26,15 +26,9 @@ namespace SlimeQuest
         private int[] _enterPos;
         private HouseLayout.Type _houseLayout;
         private Humanoid.Location _houseLocation;
+        private ConsoleColor _houseColor;
 
-
-
-
-
-
-
-
-
+        
 
         public string Name
         {
@@ -71,6 +65,10 @@ namespace SlimeQuest
             get { return _houseLocation; }
             set { _houseLocation = value; }
         }
-
+        public ConsoleColor HouseColor
+        {
+            get { return _houseColor; }
+            set { _houseColor = value; }
+        }
     }
 }

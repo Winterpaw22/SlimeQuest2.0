@@ -79,16 +79,18 @@ namespace SlimeQuest
                     EnterPosition = new int[2]{29,24},
                     Houselayout = HouseLayout.Type.House1,
                     HouseLoc = Humanoid.Location.TutTown,
-                    HouseName = House.houseName.PlayerHome
+                    HouseName = House.houseName.PlayerHome,
+                    HouseColor = ConsoleColor.DarkCyan
                 },
                 new House
                 {
                     Xpos = 75,
                     Ypos = 23,
-                    EnterPosition = new int[2]{72,24},
+                    EnterPosition = new int[2]{78,27},
                     Houselayout = HouseLayout.Type.MedCenter,
                     HouseLoc = Humanoid.Location.TutTown,
-                    HouseName = House.houseName.HealHouse
+                    HouseName = House.houseName.HealHouse,
+                    HouseColor = ConsoleColor.DarkRed
                 }
             };
             return HouseList;
