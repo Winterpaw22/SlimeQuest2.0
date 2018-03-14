@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace SlimeQuest
 {
-    class Adventurer : Player
+    class Adventurer : Humanoid
     {
         #region Enums
-        public enum Location
+        
+        public enum Quest
         {
-            MainWorld,
-            TutTown,
-            DefaultNameTown,
-            Cave
+            MeetTheOldMan,
+            GoHome,
+            LeaveHome,
+            TheNewGuyInTown
+
         }
         public enum Weapon
         {
@@ -29,18 +31,19 @@ namespace SlimeQuest
         #endregion  
 
 
-
+        private Quest _currentQuest;
         private int _age;
         private int _health;
-        private Location _location;
         private Weapon _weapon;
-        private Windows[] windows;
-
-        
+        private List<Humanoid.Location> _prevLoc;
 
 
-
-
+       
+        public Quest CurrentQuest
+        {
+            get { return _currentQuest; }
+            set { _currentQuest = value; }
+        }
         public int Health
         {
             get { return _health; }
@@ -52,25 +55,17 @@ namespace SlimeQuest
             get { return _age; }
             set { _age = value; }
         }
-        
-
-        public Location MapLocation
-        {
-            get { return _location; }
-            set { _location = value; }
-        }
-
         public Weapon PlayerWeapon
         {
             get { return _weapon; }
             set { _weapon = value; }
         }
-
-        public Windows[] GameWindows
+        public List<Humanoid.Location> PreviousLocations
         {
-            get { return windows; }
-            set { windows = value; }
+            get { return _prevLoc; }
+            set { _prevLoc = value; }
         }
+
 
     }
 }

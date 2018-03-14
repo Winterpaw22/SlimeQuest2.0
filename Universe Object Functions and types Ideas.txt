@@ -1,0 +1,26 @@
+NPC: Name | Gender | Text (1-2) | Map | Position(x,y) 
+
+WORLD: Name | NPC(Map,Position(x,y)) | House(Name,Position) | Foiliage(Position,Plant,Color)
+
+HOUSE: Position(x,y) | Type | Enum(Home) | Walls (width height)
+
+TOWN: Position | Icon | InTown
+
+FOILIAGE: Position | PlantChar | Color 
+
+Flesh out World and Locations
+
+
+
+
+Create a Method for drawing houses to the screen along with foiliage
+
+Make the houses accessable
+
+Draw in a room to move around in
+
+Restrict movement to only the room
+
+Place NPC in the room
+
+Make the quest for return home trigger

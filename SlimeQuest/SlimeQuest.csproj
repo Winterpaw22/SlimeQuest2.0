@@ -50,10 +50,17 @@
     <Compile Include="Controllers\Validators.cs" />
     <Compile Include="Controllers\windowCreator.cs" />
     <Compile Include="models\Adventurer.cs" />
-    <Compile Include="models\Player.cs" />
+    <Compile Include="models\Foiliage.cs" />
+    <Compile Include="models\House.cs" />
+    <Compile Include="models\HouseLayout.cs" />
+    <Compile Include="models\NPC.cs" />
+    <Compile Include="models\Humanoid.cs" />
+    <Compile Include="models\Towns.cs" />
+    <Compile Include="models\Universe.cs" />
     <Compile Include="models\Windows.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\DisplayMap.cs" />
     <Compile Include="Views\TextBoxViews.cs" />
     <Compile Include="Views\WindowConfig.cs" />
   </ItemGroup>

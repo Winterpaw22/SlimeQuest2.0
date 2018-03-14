@@ -82,9 +82,9 @@ namespace SlimeQuest
             return weapon;
         }
 
-        public static Adventurer.Race RaceValidation()
+        public static Humanoid.Race RaceValidation()
         {
-            Adventurer.Race race = Adventurer.Race.Orc;
+            Humanoid.Race race = Humanoid.Race.Orc;
             bool loop = true;
             string response;
             while (loop)

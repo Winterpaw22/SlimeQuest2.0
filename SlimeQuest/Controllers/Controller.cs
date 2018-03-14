@@ -44,10 +44,11 @@ namespace SlimeQuest
         {
             Console.CursorVisible = false;
             Windows[] windows = new Windows[6];
-
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.SetWindowSize(150, 60);
             //WindowConfig.NumbersOnScreen();
-            WindowConfig.SplashScreen();
+            TextBoxViews.SplashScreen(40, 25);
 
             Console.ReadLine();
             Console.Clear();
@@ -57,35 +58,42 @@ namespace SlimeQuest
             Console.SetCursorPosition(6, 47);
             Console.Write("is your job to take care of them");
 
-            Console.ReadLine();
+            Console.ReadKey();
             TextBoxViews.ClearTextBox();
 
             Adventurer adventurer = new Adventurer();
-            adventurer= TextBoxViews.GetPlayerInfo(windows);
+            adventurer = TextBoxViews.DevPlayer();
+
+            Universe universe = new Universe();
+            universe = universe.InitializeUniverse(windows);
+
             TextBoxViews.DisplayMenu();
-            GameLoop(adventurer);
+            GameLoop(adventurer,universe);
+            
+            TextBoxViews.RedrawBox(universe,5);
             Console.SetCursorPosition(6, 46);
             Console.Write("You failed your race.");
+            Console.ReadKey();
         }
         //make a loop to hold player movement and other values
-        public static void GameLoop(Adventurer adventurer)
+        public static void GameLoop(Adventurer adventurer,Universe universe)
         {
             bool playing = true;
             bool returning = true;
             TextBoxViews.DisplayPlayerInfo(adventurer);
-
+            TextBoxViews.DisplayHeader();
             while (playing)
             {
                 if (returning)
                 {
                     Console.CursorVisible = false;
                     TextBoxViews.DisplayPlayerInfo(adventurer);
-                    TextBoxViews.RemoveBox(adventurer, 5);
+                    TextBoxViews.RemoveBox(universe, 5);
                     returning = false;
                 }
-
-                playing = Map.movement(adventurer);
-                Map.CheckPosition(adventurer);
+                TextBoxViews.DisplayPosition(adventurer);
+                playing = Map.movement(adventurer,universe);
+                Map.CheckPosition(adventurer, universe);
             }
         }
     }

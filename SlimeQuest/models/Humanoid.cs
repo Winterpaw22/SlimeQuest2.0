@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace SlimeQuest
 {
-    class Player
+    class Humanoid
     {
+        public enum Direction
+        {
+            LEFT,
+            RIGHT,
+            UP,
+            DOWN
+        }
         public enum Race
         {
             Human,
@@ -15,20 +22,36 @@ namespace SlimeQuest
             Elve,
             Orc
         }
-
+        public enum Location
+        {
+            MainWorld,
+            TutTown,
+            DefaultNameTown,
+            Cave
+        }
 
 
         private string _name;
+        private bool _gender;
         private int _xPosition;
         private int _yPosition;
         private Race _race;
+        private Location _location;
+        private Direction _direction;
 
         
+
+
 
         public string Name
         {
             get { return _name; }
             set { _name = value; }
+        }
+        public bool Gender
+        {
+            get { return _gender; }
+            set { _gender = value; }
         }
         public int Xpos
         {
@@ -45,7 +68,16 @@ namespace SlimeQuest
             get { return _race; }
             set { _race = value; }
         }
-
+        public Location MapLocation
+        {
+            get { return _location; }
+            set { _location = value; }
+        }
+        public Direction LookDirection
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
 
 
 

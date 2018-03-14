@@ -11,6 +11,6 @@ namespace SlimeQuest
         static void Main(string[] args)
         {
             Controller.StartGame();
-        }//find shit for the overflow
+        }
     }
 }

@@ -1,5 +1,67 @@
-Textbox = 6,46 bottom 52 end 101
-Status Box = 110,8 bottom 24 end 147
-Menu box = 110, 29 bottom 53 end 147 
-input box = 7,57 bottom 58 end 148
+0 top window = 2,2     bottom 3  end 148
+1 Map window = 1,6     bottom 54 end 105 
+2 Status Box = 110,8   bottom 24 end 147
+3 Menu box   = 110,29  bottom 53 end 147 
+4 input box  = 7,57    bottom 58 end 148
+5 Textbox    = 6,46    bottom 52 end 101
+
+map window for player movability 7, 3 : 54,105
+
+Change what holds the Textbox Numbers
+tut = 0
+t2 = 1
+main = 2
+cave = 3
+
+
+
 middle of screen 55, 26
+
+OLD MAN LOC 75,8
+					Slime Quest
+                                 New splash screen
+
+    __         _____    ___ ___    ____      ____            ____   __   _____                      
+   /  \  |       |     |   |   |  |         |    |  |    |  |      /  \    |                                             
+   \__   |       |     |   |   |  |__       |    |  |    |  |__    \__     |                           
+      \  |       |     |       |  |         |  \ |  |    |  |         \    |                               
+   \__/  |___  __|__   |       |  |____     |___\|  |____|  |____  \__/    |                                          
+                   
+
+
+
+sx 
+sy 28
+
+
+House 1 26,23
+House 3 75,23
+
+house 2 26,32
+house 4 75,32
+
+tree 
+23 9
+11,27
+65,10
+85,16
+
+Grass
+
+
+20,49 - 103,49
+eos - 34 y48
+eos - 17  47
+eos - 8   46
+
+
+
+
+
+
+
+
+
+
+
+                                                                     

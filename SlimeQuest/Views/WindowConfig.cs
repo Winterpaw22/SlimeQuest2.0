@@ -46,11 +46,6 @@ namespace SlimeQuest
                 Console.CursorLeft = 0;
             }
         }
-        public static void SplashScreen()
-        {
-            Console.SetCursorPosition(70,25);
-            Console.Write("Slime Quest");
-        }
 
 
     }
