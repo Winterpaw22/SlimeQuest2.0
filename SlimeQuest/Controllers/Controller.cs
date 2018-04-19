@@ -53,26 +53,22 @@ namespace SlimeQuest
             Console.ReadLine();
             Console.Clear();
             windows = InitializeWindowScreens();
-            Console.SetCursorPosition(6,46);
-            Console.Write("Some slimes have gotten out of control and it");
-            Console.SetCursorPosition(6, 47);
-            Console.Write("is your job to take care of them");
+            Universe universe = new Universe();
+            universe = universe.InitializeUniverse(windows);
 
-            Console.ReadKey();
-            TextBoxViews.ClearTextBox();
+            TextBoxViews.WriteToMessageBox(universe, "After defeating the slime king peace was returned to the land. But not all peace lasts forever, and a groupd of bandits have set up camp in a nearby cave and it is your job to take them out...");
 
             Adventurer adventurer = new Adventurer();
             adventurer = TextBoxViews.DevPlayer();
 
-            Universe universe = new Universe();
-            universe = universe.InitializeUniverse(windows);
+            
 
-            TextBoxViews.DisplayMenu();
+            TextBoxViews.DisplayMenu(universe);
             GameLoop(adventurer,universe);
             
             TextBoxViews.RedrawBox(universe,5);
             Console.SetCursorPosition(6, 46);
-            Console.Write("You failed your race.");
+            Console.Write("You failed your people...");
             Console.ReadKey();
         }
         //make a loop to hold player movement and other values

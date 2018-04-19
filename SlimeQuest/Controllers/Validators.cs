@@ -29,7 +29,41 @@ namespace SlimeQuest
                 }
             }
             TextBoxViews.ClearInputBox();
+            TextBoxViews.ClearErrorTextBox();
             return validInt;
+        }
+
+        public static bool ValidYesNo()
+        {
+            bool validIntResponse = false;
+            bool yesno = true;
+
+
+            string response;
+            while (!validIntResponse)
+            {
+                TextBoxViews.ClearInput();
+                Console.SetCursorPosition(7, 56);
+                response = Console.ReadLine();
+
+                if ( response.ToLower() == "yes")
+                {
+                    yesno = true;
+                    validIntResponse = true;
+                }
+                else if (response.ToLower() == "no")
+                {
+                    yesno = false;
+                    validIntResponse = true;
+                }
+                else
+                {
+                    TextBoxViews.ErrorTextBox("Error: you need to enter either yes or no");
+                }
+            }
+            TextBoxViews.ClearInputBox();
+            TextBoxViews.ClearErrorTextBox();
+            return yesno;
         }
 
         public static Adventurer.Weapon WeaponValidation()
@@ -79,6 +113,7 @@ namespace SlimeQuest
                 }
             }
             TextBoxViews.ClearInputBox();
+            TextBoxViews.ClearErrorTextBox();
             return weapon;
         }
 
@@ -112,6 +147,7 @@ namespace SlimeQuest
                 }
             }
             TextBoxViews.ClearInputBox();
+            TextBoxViews.ClearErrorTextBox();
             return race;
         }
     }

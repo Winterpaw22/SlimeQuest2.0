@@ -24,12 +24,14 @@ namespace SlimeQuest
         }
         public enum Location
         {
+            None,
             MainWorld,
             TutTown,
             DefaultNameTown,
             Cave
         }
 
+        
 
         private string _name;
         private bool _gender;
@@ -37,9 +39,14 @@ namespace SlimeQuest
         private int _yPosition;
         private Race _race;
         private Location _location;
+
         private Direction _direction;
+        private Direction _lastDirection;
 
         
+        private House.houseName _inHouseName;
+
+
 
 
 
@@ -78,8 +85,18 @@ namespace SlimeQuest
             get { return _direction; }
             set { _direction = value; }
         }
+        public Direction LastDirection
+        {
+            get { return _lastDirection; }
+            set { _lastDirection = value; }
+        }
 
-
+        
+        public House.houseName InHouseName
+        {
+            get { return _inHouseName; }
+            set { _inHouseName = value; }
+        }
 
     }
 }

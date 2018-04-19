@@ -11,6 +11,7 @@ namespace SlimeQuest
         //Can be a string or an Enum
         public enum houseName
         {
+            None,
             PlayerHome,
             HealHouse,
             Market,
@@ -19,56 +20,15 @@ namespace SlimeQuest
             AristaHouse
 
         }
-        private string _name;
-        private houseName _house;
-        private int _xPos;
-        private int _yPos;
-        private int[] _enterPos;
-        private HouseLayout.Type _houseLayout;
-        private Humanoid.Location _houseLocation;
-        private ConsoleColor _houseColor;
 
-        
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public houseName HouseName
-        {
-            get { return _house; }
-            set { _house = value; }
-        }
-        public int Xpos
-        {
-            get { return _xPos; }
-            set { _xPos = value; }
-        }
-        public int Ypos
-        {
-            get { return _yPos; }
-            set { _yPos = value; }
-        }
-        public int[] EnterPosition
-        {
-            get { return _enterPos; }
-            set { _enterPos = value; }
-        }
-        public HouseLayout.Type Houselayout
-        {
-            get { return _houseLayout; }
-            set { _houseLayout = value; }
-        }
-        public Humanoid.Location HouseLoc
-        {
-            get { return _houseLocation; }
-            set { _houseLocation = value; }
-        }
-        public ConsoleColor HouseColor
-        {
-            get { return _houseColor; }
-            set { _houseColor = value; }
-        }
+        public bool PlayerInside { get; set; }
+        public houseName HouseName { get; set; }
+        public int Xpos { get; set; }
+        public int Ypos { get; set; }
+        public int[] EnterPosition { get; set; }
+        public HouseLayout.Type Houselayout { get; set; }
+        public Humanoid.Location HouseLoc { get; set; }
+        public ConsoleColor HouseColor { get; set; }
+    
     }
 }

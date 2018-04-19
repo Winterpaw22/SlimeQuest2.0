@@ -14,7 +14,11 @@ namespace SlimeQuest
         private List<Foiliage> _foiliageList;
         private List<House> _houseList;
         private HouseLayout[] _houseLayouts;
+        private List<Furniture> _furnitureList;
 
+
+
+        #region GETS and SETS
         public Windows[] GameWindows
         {
             get { return windows; }
@@ -50,22 +54,39 @@ namespace SlimeQuest
             get { return _houseLayouts; }
             set { _houseLayouts = value; }
         }
+        public List<Furniture> FurnitureList
+        {
+            get { return _furnitureList; }
+            set { _furnitureList = value; }
+        }
+        #endregion
 
 
-        private void InitializeHouseTypes()
+        private HouseLayout[] InitializeHouseTypes()
         {
             HouseLayouts = new HouseLayout[]
             {
                 new HouseLayout
                 {
-                    startXPos = 25,
-                    startYPos = 28,
-                    endXPos = 60,
-                    endYPos = 48,
+                    startXPos = 33,
+                    startYPos = 17,
+                    endXPos = 78,
+                    endYPos = 33,
                     houseType = HouseLayout.Type.House1
+                    
+                },
+                new HouseLayout
+                {
+                    startXPos = 33,
+                    startYPos = 17,
+                    endXPos = 78,
+                    endYPos = 33,
+                    houseType = HouseLayout.Type.Market
+
                 }
 
             };
+            return HouseLayouts;
         }
 
         private List<House> InitializeAllHouses()
@@ -76,7 +97,8 @@ namespace SlimeQuest
                 {
                     Xpos = 26,
                     Ypos = 23,
-                    EnterPosition = new int[2]{29,24},
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{29,26},
                     Houselayout = HouseLayout.Type.House1,
                     HouseLoc = Humanoid.Location.TutTown,
                     HouseName = House.houseName.PlayerHome,
@@ -86,16 +108,75 @@ namespace SlimeQuest
                 {
                     Xpos = 75,
                     Ypos = 23,
-                    EnterPosition = new int[2]{78,27},
-                    Houselayout = HouseLayout.Type.MedCenter,
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{78,26},
+                    Houselayout = HouseLayout.Type.Market,
+                    //Flag a check for this location on map
                     HouseLoc = Humanoid.Location.TutTown,
-                    HouseName = House.houseName.HealHouse,
-                    HouseColor = ConsoleColor.DarkRed
+                    HouseName = House.houseName.Market,
+                    HouseColor = ConsoleColor.Blue
                 }
             };
             return HouseList;
         }
         
+        private List<Furniture> InitializeAllFurniture()
+        {
+            List<Furniture> furniture = new List<Furniture>
+            {
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Counter,
+                    House = House.houseName.Market,
+                    Xpos = 34,
+                    Ypos = 18
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Table,
+                    House = House.houseName.Market,
+                    Xpos = 39,
+                    Ypos = 22
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Desk,
+                    House = House.houseName.Market,
+                    Xpos = 42,
+                    Ypos = 29
+                },
+
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Desk,
+                    House = House.houseName.Market,
+                    Xpos = 59,
+                    Ypos = 29
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Desk,
+                    House = House.houseName.Market,
+                    Xpos = 66,
+                    Ypos = 29
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Table,
+                    House = House.houseName.Market,
+                    Xpos = 64,
+                    Ypos = 22
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Table,
+                    House = House.houseName.Market,
+                    Xpos = 71,
+                    Ypos = 19
+                },
+            };
+            return furniture;
+        }
 
         private List<Foiliage> InitializeAllPlants()
         {
@@ -103,49 +184,64 @@ namespace SlimeQuest
             {
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
-                    CharIcon = "*",
-                    Color = ConsoleColor.Green,
+                    XPos = 23,
+                    YPos = 9,
+                    CharIcon = "tree",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.DarkGreen,
                     Location = Humanoid.Location.TutTown
                 },
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
-                    CharIcon = "*",
-                    Color = ConsoleColor.Green,
+                    XPos = 11,
+                    YPos = 27,
+                    CharIcon = "tree",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.DarkGreen,
                     Location = Humanoid.Location.TutTown
                 },
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
-                    CharIcon = "*",
-                    Color = ConsoleColor.Green,
+                    XPos = 65,
+                    YPos = 10,
+                    CharIcon = "tree",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.DarkGreen,
                     Location = Humanoid.Location.TutTown
                 },
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
-                    CharIcon = "*",
-                    Color = ConsoleColor.Green,
+                    XPos = 85,
+                    YPos = 16,
+                    CharIcon = "tree",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.DarkGreen,
                     Location = Humanoid.Location.TutTown
                 },
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
+                    XPos = 30,
+                    YPos = 42,
                     CharIcon = "*",
+                    Plant = Foiliage.plantType.Grass,
                     Color = ConsoleColor.Green,
-                    Location = Humanoid.Location.TutTown
+                    Location = Humanoid.Location.DefaultNameTown
                 },
                 new Foiliage
                 {
-                    XPos = 0,
-                    YPos = 0,
+                    XPos = 47,
+                    YPos = 30,
                     CharIcon = "*",
+                    Plant = Foiliage.plantType.Grass,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.MainWorld
+                },
+                new Foiliage
+                {
+                    XPos = 3,
+                    YPos = 50,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Grass,
                     Color = ConsoleColor.Green,
                     Location = Humanoid.Location.TutTown
                 }
@@ -172,37 +268,43 @@ namespace SlimeQuest
                     listMax = 3,
                     Gender = true,
                     MapLocation = Humanoid.Location.TutTown,
+                    InHouseName = House.houseName.None,
                     Xpos = 75,
                     Ypos = 8,
                     PlayerRace = Humanoid.Race.Elve
                 },
                 new NPC
                 {
-                    Name = "TestName2",
-                    charIcon = "H",
+                    Name = "Jerry",
+                    charIcon = "J",
                     greeting = "Hello traveller",
                     messages = new List<string>
                     {
-                        "Hello, My name is TestName2",
-                        "Hello, This is a test to see what is possible withthe current textwrap setup. Talking to NPC Testname2 Game still early in development with not many bugs to destroy. Game Functionality going well and there appear to be no problems that need to be discussed",
-                        "Fix"
+                        $"Hello, My name is Jerry. ",
+                        "Hey, Have you seen outside the town yet? I hear it looks like a wasteland out there.",
+                        "I dont know why I cannot move..."
                     },
                     listCurrent = 0,
                     listMax = 3,
 
                     Gender = true,
                     MapLocation = Humanoid.Location.TutTown,
+                    InHouseName = House.houseName.None,
                     Xpos = 30,
                     Ypos = 8,
                     PlayerRace = Humanoid.Race.Human
                 },
                 new NPC
                 {
-                    Name = "TestName2",
+                    Name = "Sarah",
                     charIcon = "S",
-                    greeting = "Hello traveller, Are you fairing well?",
+                    greeting = "Unusual?",
                     Gender = true,
                     MapLocation = Humanoid.Location.MainWorld,
+                    messages = new List<string>{
+                        "HI! My name is Sarah... I dunno where I am at.."
+                        },
+                    InHouseName = House.houseName.None,
                     listCurrent = 0,
                     listMax = 1,
                     Xpos = 30,
@@ -216,12 +318,36 @@ namespace SlimeQuest
                     greeting = "Hello traveller, Are you fairing well?",
                     Gender = true,
                     MapLocation = Humanoid.Location.Cave,
+                    InHouseName = House.houseName.None,
+                    messages = new List<string>
+                    {
+                        "Please leave my cave.."
+                    },
                     listCurrent = 0,
                     listMax = 1,
                     Xpos = 60,
                     Ypos = 30,
                     PlayerRace = Humanoid.Race.Elve
-                }
+                },
+                new NPC
+                {
+                    Name = "Merchant",
+                    charIcon = "M",
+                    greeting = "Hello traveller, Are you fairing well?",
+                    messages = new List<string>
+                    {
+                        " ",
+                        " "
+                    },
+                    listCurrent = 0,
+                    listMax = 2,
+                    Gender = true,
+                    MapLocation = Humanoid.Location.None,
+                    InHouseName = House.houseName.Market,
+                    Xpos = 35,
+                    Ypos = 18,
+                    PlayerRace = Humanoid.Race.Human
+                },
             };
             return NPCList;
         }
@@ -269,6 +395,7 @@ namespace SlimeQuest
             };
             return towns;
         }
+
         public Universe InitializeUniverse(Windows[] windows)
         {
 
@@ -277,12 +404,13 @@ namespace SlimeQuest
                 NPCList = InitializeAllNPC(),
                 TownList = InitializeAllTowns(),
                 HouseList = InitializeAllHouses(),
+                FoiliageList = InitializeAllPlants(),
+                HouseLayouts = InitializeHouseTypes(),
+                FurnitureList = InitializeAllFurniture(),
                 GameWindows = windows
-                
-                
             };
-            InitializeHouseTypes();
-
+            
+            
             return universe;
         }
         public string ReturnTownDescription(Universe universe)

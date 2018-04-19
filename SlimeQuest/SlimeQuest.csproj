@@ -45,12 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Check.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\Map.cs" />
     <Compile Include="Controllers\Validators.cs" />
     <Compile Include="Controllers\windowCreator.cs" />
     <Compile Include="models\Adventurer.cs" />
+    <Compile Include="models\Item.cs" />
     <Compile Include="models\Foiliage.cs" />
+    <Compile Include="models\Furniture.cs" />
     <Compile Include="models\House.cs" />
     <Compile Include="models\HouseLayout.cs" />
     <Compile Include="models\NPC.cs" />

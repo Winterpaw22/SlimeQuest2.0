@@ -30,8 +30,35 @@ OLD MAN LOC 75,8
 
 
 
+      +----+
+      |    |                               
+      +----+                   
+                          
+                  
+
+desk 34,18
+
+
+tabel
+	64,22
+	51,19
+
+
+desk
+
+	59,29
+	66,29
+	
+
 sx 
 sy 28
+
+29,26
+
+78,26
+
+
+56,32
 
 
 House 1 26,23
@@ -46,14 +73,32 @@ tree
 65,10
 85,16
 
+
+House Window Dimensions
+normal
+
+xstart = 33
+xend = 78
+ystart = 17
+yend 33
+
+
+
+CheckNPCMap(universe, Humanoid.Location.MainWorld)
+
+DisplayMap.DisplayNPC(universe)
+
+
+Leave till later when doing the layering
+ 
 Grass
 
-
+++++++++++++++++++++++++++++++++
 20,49 - 103,49
 eos - 34 y48
 eos - 17  47
 eos - 8   46
-
++++++++++++++++++++++++++++++++++++
 
 
 

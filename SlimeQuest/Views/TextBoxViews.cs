@@ -57,7 +57,7 @@ namespace SlimeQuest
         /// </summary>
         public static void ClearTextBox()
         {
-            for (int x = 46; x < 52; x++)
+            for (int x = 46; x < 53; x++)
             {
                 Console.SetCursorPosition(6, x);
                 for (int i = 0; i < 95; i++)
@@ -97,6 +97,15 @@ namespace SlimeQuest
         }
         
         /// <summary>
+        /// Clears the Error Message
+        /// </summary>
+        public static void ClearErrorTextBox()
+        {
+            Console.SetCursorPosition(1, 58);
+            Console.Write("========================================================================================");
+        }
+
+        /// <summary>
         /// Removes a selected box
         /// </summary>
         /// <param name="universe"> holds the...Windows??? Note: Change to universe later</param>
@@ -131,6 +140,29 @@ namespace SlimeQuest
 
             }
         }
+
+
+        /// <summary>
+        /// Removes a selected box
+        /// </summary>
+        /// <param name="universe"> holds the...Windows??? Note: Change to universe later</param>
+        /// <param name="windowNumber">Numbers can be found in WindowBox.txt file</param>
+        public static void RemoveContent(Universe universe, int windowNumber)
+        {
+
+            Console.SetCursorPosition(universe.GameWindows[windowNumber].XStart + 1, universe.GameWindows[windowNumber].YStart + 1);
+            for (int y = universe.GameWindows[windowNumber].YStart + 1; y <= universe.GameWindows[windowNumber].YEnd - 1; y++)
+            {
+                Console.SetCursorPosition(universe.GameWindows[windowNumber].XStart + 1,y);
+                for (int i = universe.GameWindows[windowNumber].XStart + 1; i <= universe.GameWindows[windowNumber].XEnd - 1; i++)
+                {
+                    Console.Write(" ");//Forward pointing double arrow
+                }
+
+            }
+            
+        }
+
 
         /// <summary>
         /// Redraws a selected box
@@ -195,12 +227,19 @@ namespace SlimeQuest
             adventurer.MapLocation = Adventurer.Location.TutTown;
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
+            adventurer.InaHouse = false;
+            adventurer.InHouseName = House.houseName.None;
+            adventurer.QuestCompletion = Adventurer.InstantiateQuests();
+            adventurer.InventoryPageNumber = 0;
+            adventurer.Coins = 9000000;
+            adventurer.PlayerItemsDictionary = Adventurer.InstantiateInventory();
 
             adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
+            adventurer.QuestDone = Adventurer.InstantiateQuestCompletionMessageCheck();
 
             return adventurer;
         }
-        public static Adventurer GetPlayerInfo( Windows[] windows)
+        public static Adventurer GetPlayerInfo()
         {
             Adventurer adventurer = new Adventurer();
 
@@ -210,11 +249,15 @@ namespace SlimeQuest
             Console.SetCursorPosition(4, 56);
             adventurer.Name = Console.ReadLine();
             ClearTextBox();
+            ClearErrorTextBox();
+
 
             Console.SetCursorPosition(6, 46);
             Console.Write("Please enter your age " + adventurer.Name);
             adventurer.Age = Validators.ValidInt();
             ClearTextBox();
+            ClearErrorTextBox();
+
 
             Console.SetCursorPosition(6, 46);
             Console.Write("What race are you?");
@@ -229,7 +272,7 @@ namespace SlimeQuest
 
             adventurer.PlayerRace = Validators.RaceValidation();
             ClearTextBox();
-
+            ClearErrorTextBox();
 
             Console.SetCursorPosition(6, 46);
             Console.Write("What Weapon will you use?");
@@ -247,12 +290,23 @@ namespace SlimeQuest
             Console.Write(Adventurer.Weapon.Mace);
             adventurer.PlayerWeapon = Validators.WeaponValidation();
             ClearTextBox();
+            ClearErrorTextBox();
+
+
             adventurer.Health = 100;
             adventurer.MapLocation = Adventurer.Location.TutTown;
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
+            adventurer.InaHouse = false;
+            adventurer.InHouseName = House.houseName.None;
+
+            adventurer.QuestCompletion = Adventurer.InstantiateQuests();
 
             adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
+
+            adventurer.InventoryPageNumber = 0;
+            adventurer.Coins = 20;
+            adventurer.PlayerItemsDictionary = Adventurer.InstantiateInventory();
 
             return adventurer;
         }
@@ -271,6 +325,7 @@ namespace SlimeQuest
             Console.SetCursorPosition(110, 16);
             Console.Write("Certified weapon: " + adventurer.PlayerWeapon);
             Console.SetCursorPosition(110, 18);
+            Console.Write("Coins: " + adventurer.Coins + "          ");
         }
 
         /// <summary>
@@ -285,19 +340,83 @@ namespace SlimeQuest
         /// <summary>
         /// Displays the Menu that is Controlled using the Numpad
         /// </summary>
-        public static void DisplayMenu()
+        public static void DisplayMenu(Universe universe)
         {
+            RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
             Console.Write("Navigate menu using the NUMPAD");
 
             Console.SetCursorPosition(112,32);
-            Console.Write("1. Close Game");
+            Console.Write("1. Talk");
             Console.SetCursorPosition(112, 33);
             Console.Write("2. Look around");
             Console.SetCursorPosition(112, 34);
-            Console.Write("3. Talk");
+            Console.Write("3. Locations");
             Console.SetCursorPosition(112, 35);
-            Console.Write("4. Locations");
+            Console.Write("4.Inventory");
+
+            Console.SetCursorPosition(112, 40);
+            Console.Write("9. Close Game");
+        }
+
+        public static void MerchMenu(Universe universe)
+        {
+            RemoveContent(universe, 3);
+            Console.SetCursorPosition(110, 30);
+            Console.Write("Navigate using the NUMPAD");
+
+            Console.SetCursorPosition(112, 32);
+            Console.Write("1. Health Potioin = 20 Coins");
+            Console.SetCursorPosition(112, 33);
+            Console.Write("2. Mana Potion = 20 Coins");
+            Console.SetCursorPosition(112, 34);
+            Console.Write("3. Stone");
+
+            Console.SetCursorPosition(112, 40);
+            Console.Write("9. Stop Shopping");
+        }
+
+        /// <summary>
+        /// Displays the Inventory that is Controlled using the Numpad
+        /// </summary>
+        public static void DisplayInventory(Dictionary<Item.Items,int> itemList)
+        {
+            Console.SetCursorPosition(110, 30);
+            Console.Write("Navigate Inventory using the NUMPAD");
+
+            int invYlvl = 32;
+            int itmNo = 1;
+            foreach (var item in itemList)
+            {
+                Console.SetCursorPosition(112, invYlvl);
+                Console.Write(itmNo + ". " + item.Key + " : " + item.Value.ToString());
+                invYlvl++;
+                itmNo++;
+            }
+            
+
+            Console.SetCursorPosition(112, 43);
+            Console.Write("9. Close Inventory");
+        }
+
+        /// <summary>
+        /// Possibly Remove Later
+        /// </summary>
+        /// <param name="itemList"></param>
+        public static void DisplayMerchantWares(List<Item.Items> itemList)
+        {
+            Console.SetCursorPosition(110, 30);
+            Console.Write("Navigate Inventory using the NUMPAD");
+
+            int invYlvl = 32;
+            int itmNo = 1;
+            foreach (var item in itemList)
+            {
+                Console.SetCursorPosition(112, invYlvl);
+                Console.Write(itmNo + ". " + item);
+                invYlvl++;
+                itmNo++;
+            }
         }
 
         /// <summary>
@@ -360,8 +479,38 @@ namespace SlimeQuest
             RemoveBox(universe,5);
         }
 
+        /// <summary>
+        /// Displays a merchant message and gets you to buy stuff
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="adventurer"></param>
+        public static void MerchantMessage(Universe universe, Adventurer adventurer)
+        {
+            RedrawBox(universe, 5);
+
+            List<Item.Items> wares = new List<Item.Items>();
+
+            Console.SetCursorPosition(6, 46);
+            Console.Write("Welcome, what can I get you?");
+            TextboxCursorBlink();
+            
+            Map.MerchantBuy(universe, adventurer);
+
+            ReWriteToMessageBox(universe, " Thank you for shopping " + adventurer.Name);
+
+            ClearTextBox();
+            RemoveBox(universe, 5);
+            DisplayMenu(universe);
+        }
+
+        /// <summary>
+        /// Writes a message to the message box after redrawing it
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="messageToBox"></param>
         public static void WriteToMessageBox(Universe universe,string messageToBox)
         {
+
             List<string> message = MessageBoxWordWrap(messageToBox, 87);
             RedrawBox(universe, 5);
             int position = 46;
@@ -378,9 +527,78 @@ namespace SlimeQuest
             RemoveBox(universe, 5);
         }
 
+        /// <summary>
+        /// rewrites a new message to the Message Box
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="messageToBox"></param>
+        public static void ReWriteToMessageBox(Universe universe, string messageToBox)
+        {
+            ClearTextBox();
+
+            List<string> message = MessageBoxWordWrap(messageToBox, 87);
+            RedrawBox(universe, 5);
+            int position = 46;
+            foreach (string strins in message)
+            {
+                Console.SetCursorPosition(6, position);
+                Console.Write(strins);
+                position++;
+            }
 
 
-        //WARNING, THis does not set everythign as a string(Regrettably) It seperates the text into however many number of spaces and extends the list each time it reaches its limit
+            TextboxCursorBlink();
+
+        }
+
+
+        /// <summary>
+        /// Writes a message to the message box after redrawing it
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="messageToBox"></param>
+        public static void WriteToMessageBox(Universe universe, string messageToBox,bool noblink)
+        {
+
+            List<string> message = MessageBoxWordWrap(messageToBox, 87);
+            RedrawBox(universe, 5);
+            int position = 46;
+            foreach (string strins in message)
+            {
+                Console.SetCursorPosition(6, position);
+                Console.Write(strins);
+                position++;
+            }
+
+
+
+            ClearTextBox();
+            RemoveBox(universe, 5);
+        }
+
+        /// <summary>
+        /// rewrites a new message to the Message Box but no cursor blink
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="messageToBox"></param>
+        public static void ReWriteToMessageBox(Universe universe, string messageToBox, bool noBlink)
+        {
+            ClearTextBox();
+
+            List<string> message = MessageBoxWordWrap(messageToBox, 87);
+            RedrawBox(universe, 5);
+            int position = 46;
+            foreach (string strins in message)
+            {
+                Console.SetCursorPosition(6, position);
+                Console.Write(strins);
+                position++;
+            }
+
+        }
+
+
+        //WARNING, THis does not set everything as a string(Regrettably) It seperates the text into however many number of spaces and extends the list each time it reaches (Whatever you set the character limit number to)
         /// <summary>
         /// wraps text using a list of strings
         /// Original code from Mike Ward's website
@@ -426,18 +644,6 @@ namespace SlimeQuest
 
             return lines;
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

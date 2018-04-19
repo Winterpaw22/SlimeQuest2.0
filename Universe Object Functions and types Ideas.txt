@@ -4,24 +4,46 @@ WORLD: Name | NPC(Map,Position(x,y)) | House(Name,Position) | Foiliage(Position,
 
 HOUSE: Position(x,y) | Type | Enum(Home) | Walls (width height)
 
+ITEM: Position | Enum(Item) | 
+
 TOWN: Position | Icon | InTown
 
 FOILIAGE: Position | PlantChar | Color 
 
 Flesh out World and Locations
 
+INVENTORY SYSTEM
+
+Display in player menu section
+
+INVENTORY LIST IF TIME ELSE ARRAY
+
+Logic for inventory:
+Different inventory setup
+
+Add logic to inventory navigation so you dont use item 1 when no item is available
+
+
+Use menu with numpad
 
 
 
-Create a Method for drawing houses to the screen along with foiliage
 
-Make the houses accessable 4 v 3 >
 
-Draw in a room to move around in
 
-Restrict movement to only the room
 
-Place NPC in the room
+
+HOUSE CREATION
+
+COMPLETE THE Create and display room objects METHOD                            done
+
+Set to it can search for objects and house layout to draw whilst in a house    done
+
+Draw in a room to move around in                                               done
+
+Restrict movement to only the room                                             done
+
+Place NPC in the room                                                          done
 
 Make the quest for return home trigger
 

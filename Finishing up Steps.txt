@@ -1,0 +1,40 @@
+1. Create a clear menu method, this is just to clean up the leftovers
+ of the previous menu and can keep the program nice and concise.
+
+2. Create the pickup item method and some items to 
+ pickup(one parcel for a quest in the next town and maybe a 
+ few random globs of slime around just so the adventurer can 
+ get more slime, this will most likely just be for another use 
+ of the events in case the npc movement falls through. 
+
+3. Get my good ol' battle system up and running from the 
+ previous version, more than likely redesigning a few methods
+ to make sure it melds well with the new window setup and 
+ other new control features. 
+
+4. Provide support for the numbers above the computer 
+ and not just the numbers on the numpad. 
+ This will be a quick fix and can improve user experience. 
+
+5. Finish up all the quests and flesh out town 2, 
+ since my npc system was implemented much earlier with
+ how I programmed  I will have time to implement a small
+ story too keep the player a little entranced since the
+ graphics are very simplistic. 
+
+The cave is endgame and will have 4 enemies to fight.
+ This will not be too hard to implement after all previous
+ steps have been accomplished. Step 1 uses 3 and 4, not to
+ mention 5 will have given a reason to fight these 4 enemies.
+ 1 and 2 is just me finishing up the item system, during this
+ I will more than likely throw in a selling system just to speed
+ things up with getting potions.
+
+ Mana potions are just for a bit more context. No actual magic included.
+ Can be used for quests
+
+
+ If more time provided i could use mana potions to help keep slime players
+ On their toes as they lost slime over time and drinking a mana potion will
+ replenish their slime body and allow them to keep form and flesh out the classes
+ MUCH more than they are right now.
