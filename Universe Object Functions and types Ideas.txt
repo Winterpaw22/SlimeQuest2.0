@@ -10,21 +10,46 @@ TOWN: Position | Icon | InTown
 
 FOILIAGE: Position | PlantChar | Color 
 
+
+
+UPLOAD AND GO TO NMC.EDU AND TURN IN PROJ?
+
+
+
+
+
 Flesh out World and Locations
 
 INVENTORY SYSTEM
 
 Display in player menu section
 
-INVENTORY LIST IF TIME ELSE ARRAY
+INVENTORY LIST IF ELSE ARRAY
 
 Logic for inventory:
 Different inventory setup
 
 Add logic to inventory navigation so you dont use item 1 when no item is available
 
+ADD LOGIC SO YOU DONT DRINK A NOTHING POTION!!!!!!
 
-Use menu with numpad
+Use menu with numpad Done
+
+
+ADD IN THAT GOOD OL BATTLE SYSTEM, HELL YEAH
+
+Eat pizza first though...
+
+DONE FUUUUUUUUUU
+
+
+FIX CREATING A CHARACTER
+
+FIX UNBLOCKABLE SUPER DAMAGE
+
+ADD LEAVE TOWN QUEST TRIGGER
+
+
 
 
 
@@ -45,8 +70,8 @@ Restrict movement to only the room                                             d
 
 Place NPC in the room                                                          done
 
-Make the quest for return home trigger
+Make the quest for return home trigger					       done
 
-Restrict movement onto house walls and roof
+Restrict movement onto house walls and roof                            its a feature ;)
 
-STYLING house
+STYLING house								      done

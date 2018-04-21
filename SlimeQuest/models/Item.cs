@@ -24,6 +24,7 @@ namespace SlimeQuest
         public Humanoid.Location worldLoc { get; set; }
         public House.houseName houseLoc { get; set; }
         public Items ItemType { get; set; }
+        public bool itemTaken { get; set; }
 
     }
 }

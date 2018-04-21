@@ -286,5 +286,24 @@ namespace SlimeQuest
                     break;
             }
         }
+        public static void DisplayItemToPickup( int Xpos, int Ypos)
+        {
+            Console.SetCursorPosition(Xpos,Ypos);
+            Console.Write("+");
+        }
+        public static void DisplayItemToPickup(int Xpos, int Ypos,bool removeFromField)
+        {
+            if (removeFromField)
+            {
+                Console.SetCursorPosition(Xpos, Ypos);
+                Console.Write(" ");
+            }
+            else
+            {
+                Console.SetCursorPosition(Xpos, Ypos);
+                Console.Write("+");
+            }
+            
+        }
     }
 }

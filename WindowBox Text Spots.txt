@@ -4,6 +4,7 @@
 3 Menu box   = 110,29  bottom 53 end 147 
 4 input box  = 7,57    bottom 58 end 148
 5 Textbox    = 6,46    bottom 52 end 101
+6 EVENTBox   = 2,5     bottom 7  end 21
 
 map window for player movability 7, 3 : 54,105
 
@@ -101,6 +102,19 @@ eos - 8   46
 +++++++++++++++++++++++++++++++++++
 
 
+ITEMS no reason in particular where they are placed
+
+49, 8
+11,18
+96,33
+31,46
+
+MAINWORLD
+85,27
+85,10
+31,13
+24,42
+86,37
 
 
 

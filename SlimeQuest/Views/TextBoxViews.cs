@@ -11,6 +11,8 @@ namespace SlimeQuest
     {
 
         #region TextBoxWindows
+
+
         /// <summary>
         /// Clears input
         /// </summary>
@@ -232,7 +234,7 @@ namespace SlimeQuest
             adventurer.QuestCompletion = Adventurer.InstantiateQuests();
             adventurer.InventoryPageNumber = 0;
             adventurer.Coins = 9000000;
-            adventurer.PlayerItemsDictionary = Adventurer.InstantiateInventory();
+            adventurer.ItemsDictionary = Adventurer.InstantiateInventory();
 
             adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
             adventurer.QuestDone = Adventurer.InstantiateQuestCompletionMessageCheck();
@@ -306,7 +308,8 @@ namespace SlimeQuest
 
             adventurer.InventoryPageNumber = 0;
             adventurer.Coins = 20;
-            adventurer.PlayerItemsDictionary = Adventurer.InstantiateInventory();
+            adventurer.ItemsDictionary = Adventurer.InstantiateInventory();
+            adventurer.QuestDone = Adventurer.InstantiateQuestCompletionMessageCheck();
 
             return adventurer;
         }
@@ -318,13 +321,15 @@ namespace SlimeQuest
         {
             Console.SetCursorPosition(110,10);
             Console.Write("Name: " + adventurer.Name);
+            Console.SetCursorPosition(110, 11);
+            Console.Write("Health: " + adventurer.Health + "    ");
             Console.SetCursorPosition(110, 12);
             Console.Write("Age:" + adventurer.Age);
-            Console.SetCursorPosition(110, 14);
+            Console.SetCursorPosition(110, 13);
             Console.Write("Race: " + adventurer.PlayerRace);
-            Console.SetCursorPosition(110, 16);
+            Console.SetCursorPosition(110, 14);
             Console.Write("Certified weapon: " + adventurer.PlayerWeapon);
-            Console.SetCursorPosition(110, 18);
+            Console.SetCursorPosition(110, 15);
             Console.Write("Coins: " + adventurer.Coins + "          ");
         }
 
@@ -334,7 +339,7 @@ namespace SlimeQuest
         public static void DisplayHeader()
         {
             Console.SetCursorPosition(70,2);
-            Console.Write("Slime Game Beta");
+            Console.Write("Slime Game");
         }
 
         /// <summary>
@@ -344,7 +349,7 @@ namespace SlimeQuest
         {
             RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate menu using the NUMPAD");
+            Console.Write("Navigate menu using numbers(ex:1,2,3,4...)");
 
             Console.SetCursorPosition(112,32);
             Console.Write("1. Talk");
@@ -353,7 +358,9 @@ namespace SlimeQuest
             Console.SetCursorPosition(112, 34);
             Console.Write("3. Locations");
             Console.SetCursorPosition(112, 35);
-            Console.Write("4.Inventory");
+            Console.Write("4. Inventory");
+            Console.SetCursorPosition(112, 36);
+            Console.Write("5. Pickup item");
 
             Console.SetCursorPosition(112, 40);
             Console.Write("9. Close Game");
@@ -363,7 +370,7 @@ namespace SlimeQuest
         {
             RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate using the NUMPAD");
+            Console.Write("Navigate using numbers(ex:1,2,3,4...)");
 
             Console.SetCursorPosition(112, 32);
             Console.Write("1. Health Potioin = 20 Coins");
@@ -382,7 +389,7 @@ namespace SlimeQuest
         public static void DisplayInventory(Dictionary<Item.Items,int> itemList)
         {
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate Inventory using the NUMPAD");
+            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -400,13 +407,61 @@ namespace SlimeQuest
         }
 
         /// <summary>
+        /// Displays the Inventory that is Controlled using the Numpad
+        /// </summary>
+        public static void DisplayCustom(Universe universe,string[] textList)
+        {
+            RemoveContent(universe, 3);
+            Console.SetCursorPosition(110, 30);
+            Console.Write("Navigate menu using numbers(ex:1,2,3,4...)");
+
+            int invYlvl = 32;
+            int itmNo = 1;
+            for (int i = 0; i < textList.Length; i++)
+            {
+                Console.SetCursorPosition(112, invYlvl);
+                Console.Write(itmNo + ". " + textList[i]);
+                invYlvl++;
+                itmNo++;
+            }
+                
+            
+
+
+            Console.SetCursorPosition(112, 43);
+            Console.Write("9. Close Inventory");
+        }
+
+        /// <summary>
+        /// Array Version of display Inv
+        /// </summary>
+        /// <param name="itemList"></param>
+        public static void DisplayInventory(Item.Items[] names, int[] values)
+        {
+            Console.SetCursorPosition(110, 30);
+            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
+
+            int invYlvl = 32;
+            int itmNo = 1;
+            for (int i = 0; i < names.Length; i++)
+            {
+                Console.SetCursorPosition(112, invYlvl);
+                Console.Write(itmNo + ". " + names[i] + " : " + values[i].ToString() + "    ");
+                invYlvl++;
+                itmNo++;
+            }
+
+            Console.SetCursorPosition(112, 43);
+            Console.Write("9. Close Inventory");
+        }
+        /// <summary>
         /// Possibly Remove Later
         /// </summary>
         /// <param name="itemList"></param>
         public static void DisplayMerchantWares(List<Item.Items> itemList)
         {
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate Inventory using the NUMPAD");
+            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -527,6 +582,7 @@ namespace SlimeQuest
             RemoveBox(universe, 5);
         }
 
+
         /// <summary>
         /// rewrites a new message to the Message Box
         /// </summary>
@@ -597,6 +653,17 @@ namespace SlimeQuest
 
         }
 
+        /// <summary>
+        /// Clears itself and writes to the box in the top Right corner
+        /// </summary>
+        /// <param name="eventMsg">Message you want there</param>
+        public static void WriteToEvent(string eventMsg)
+        {
+            Console.SetCursorPosition(3,6);
+            Console.Write("                 ");
+            Console.SetCursorPosition(3, 6);
+            Console.Write(eventMsg);
+        }
 
         //WARNING, THis does not set everything as a string(Regrettably) It seperates the text into however many number of spaces and extends the list each time it reaches (Whatever you set the character limit number to)
         /// <summary>

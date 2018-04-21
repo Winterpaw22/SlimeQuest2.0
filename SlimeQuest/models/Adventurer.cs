@@ -104,7 +104,7 @@ namespace SlimeQuest
         }
 
 
-        public Dictionary<Item.Items, int> PlayerItemsDictionary
+        public Dictionary<Item.Items, int> ItemsDictionary
         {
             get { return _playerItems; }
             set { _playerItems = value; }

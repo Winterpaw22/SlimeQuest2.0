@@ -12,7 +12,7 @@ namespace SlimeQuest
     {
         public static Windows[] InitializeWindowScreens()
         {
-            Windows[] windows = new Windows[6];
+            Windows[] windows = new Windows[7];
             Windows windowTopStatus = new Windows() { XStart = 1, YStart = 1, XEnd = 149, YEnd = 4 };
             windowCreator.CreateWindow(windowTopStatus);
             windows[0] = windowTopStatus;
@@ -37,11 +37,15 @@ namespace SlimeQuest
             windowCreator.CreateWindow(windowTextBox);
             windows[5] = windowTextBox;
 
+            Windows eventBox = new Windows() { XStart = 1, YStart = 5, XEnd = 21, YEnd = 7 };
+            windows[6] = eventBox;
+
 
             return windows;
         }
         public static void StartGame()
         {
+            bool didjaWin;
             Console.CursorVisible = false;
             Windows[] windows = new Windows[6];
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -56,41 +60,50 @@ namespace SlimeQuest
             Universe universe = new Universe();
             universe = universe.InitializeUniverse(windows);
 
-            TextBoxViews.WriteToMessageBox(universe, "After defeating the slime king peace was returned to the land. But not all peace lasts forever, and a groupd of bandits have set up camp in a nearby cave and it is your job to take them out...");
+            TextBoxViews.WriteToMessageBox(universe, "After defeating the slime king peace was returned to the land. But not all peace lasts forever, and a group of bandits have set up camp in a nearby cave and it is your job to take them out...");
 
             Adventurer adventurer = new Adventurer();
-            adventurer = TextBoxViews.DevPlayer();
+            adventurer = TextBoxViews.GetPlayerInfo();
 
             
 
             TextBoxViews.DisplayMenu(universe);
-            GameLoop(adventurer,universe);
+            didjaWin = GameLoop(adventurer,universe);
             
+
             TextBoxViews.RedrawBox(universe,5);
-            Console.SetCursorPosition(6, 46);
-            Console.Write("You failed your people...");
-            Console.ReadKey();
+            if (didjaWin)
+            {
+                
+            }
+            TextBoxViews.WriteToMessageBox(universe,"Game Over");
+
         }
         //make a loop to hold player movement and other values
-        public static void GameLoop(Adventurer adventurer,Universe universe)
+        public static bool GameLoop(Adventurer adventurer,Universe universe)
         {
+            Random random = new Random();
+            int encounter = 0;
             bool playing = true;
-            bool returning = true;
+            bool win = false;
             TextBoxViews.DisplayPlayerInfo(adventurer);
             TextBoxViews.DisplayHeader();
+            Console.CursorVisible = false;
             while (playing)
             {
-                if (returning)
-                {
-                    Console.CursorVisible = false;
-                    TextBoxViews.DisplayPlayerInfo(adventurer);
-                    TextBoxViews.RemoveBox(universe, 5);
-                    returning = false;
-                }
+                
                 TextBoxViews.DisplayPosition(adventurer);
                 playing = Map.movement(adventurer,universe);
                 Map.CheckPosition(adventurer, universe);
+                encounter = random.Next(1, 30);
+                if (encounter < 5 && adventurer.MapLocation == Humanoid.Location.MainWorld)
+                {
+                    Slime slime = new Slime();
+                    Slime.InitializeNewSlime(slime);
+                    playing = Battle.BattleLoop(adventurer, universe, slime);
+                }
             }
+            return win;
         }
     }
 }

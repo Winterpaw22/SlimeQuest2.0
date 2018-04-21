@@ -8,58 +8,14 @@ namespace SlimeQuest
 {
     class Universe
     {
-        private Windows[] windows;
-        private List<NPC> _npc;
-        private List<Towns> _townList;
-        private List<Foiliage> _foiliageList;
-        private List<House> _houseList;
-        private HouseLayout[] _houseLayouts;
-        private List<Furniture> _furnitureList;
-
-
-
-        #region GETS and SETS
-        public Windows[] GameWindows
-        {
-            get { return windows; }
-            set { windows = value; }
-        }
-
-        public List<Towns> TownList
-        {
-            get { return _townList; }
-            set { _townList = value; }
-        }
-
-        public List<NPC> NPCList
-        {
-            get { return _npc; }
-            set { _npc = value; }
-        }
-
-        public List<Foiliage> FoiliageList
-        {
-            get { return _foiliageList; }
-            set { _foiliageList = value; }
-        }
-
-        public List<House> HouseList
-        {
-            get { return _houseList; }
-            set { _houseList = value; }
-        }
-
-        public HouseLayout[] HouseLayouts
-        {
-            get { return _houseLayouts; }
-            set { _houseLayouts = value; }
-        }
-        public List<Furniture> FurnitureList
-        {
-            get { return _furnitureList; }
-            set { _furnitureList = value; }
-        }
-        #endregion
+        public Windows[] GameWindows { get; set; }
+        public List<NPC> NPCList { get; set; }
+        public List<Towns> TownList { get; set; }
+        public List<Foiliage> FoiliageList { get; set; }
+        public List<House> HouseList { get; set; }
+        public HouseLayout[] HouseLayouts { get; set; }
+        public List<Furniture> FurnitureList { get; set; }
+        public List<Item> ItemList { get; set; }
 
 
         private HouseLayout[] InitializeHouseTypes()
@@ -352,6 +308,95 @@ namespace SlimeQuest
             return NPCList;
         }
 
+        private List<Item> InitializeAllItems()
+        {
+            ItemList = new List<Item>
+            {
+                new Item
+                {
+                    XPos = 49,
+                    YPos = 8,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.TutTown,
+                    ItemType = Item.Items.SlimeGel,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 11,
+                    YPos = 18,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.TutTown,
+                    ItemType = Item.Items.ManaPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 96,
+                    YPos = 33,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.TutTown,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 31,
+                    YPos = 46,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.TutTown,
+                    ItemType = Item.Items.Stone,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 85,
+                    YPos = 27,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.MainWorld,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 85,
+                    YPos = 10,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.MainWorld,
+                    ItemType = Item.Items.ManaPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 31,
+                    YPos = 13,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.MainWorld,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 24,
+                    YPos = 42,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.MainWorld,
+                    ItemType = Item.Items.SlimeGel,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 86,
+                    YPos = 37,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.MainWorld,
+                    ItemType = Item.Items.SlimeGel,
+                    itemTaken = false
+                }
+            }; 
+            return ItemList;
+        }
+
         private List<Towns> InitializeAllTowns()
         {
             List<Towns> towns = new List<Towns>
@@ -407,6 +452,8 @@ namespace SlimeQuest
                 FoiliageList = InitializeAllPlants(),
                 HouseLayouts = InitializeHouseTypes(),
                 FurnitureList = InitializeAllFurniture(),
+                ItemList = InitializeAllItems(),
+                
                 GameWindows = windows
             };
             

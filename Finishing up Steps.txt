@@ -1,9 +1,11 @@
-1. Create a clear menu method, this is just to clean up the leftovers
+1. Create a clear menu method, this is just to clean up the leftovers DONE
  of the previous menu and can keep the program nice and concise.
 
-2. Create the pickup item method and some items to 
- pickup(one parcel for a quest in the next town and maybe a 
- few random globs of slime around just so the adventurer can 
+2. Create the pickup item method and some items to             DONE
+ pickup
+
+2.5 . one parcel for a quest in the next town and maybe a 
+ few random globs of slime around just so the adventurer can   ALMOST DONE
  get more slime, this will most likely just be for another use 
  of the events in case the npc movement falls through. 
 
@@ -12,9 +14,11 @@
  to make sure it melds well with the new window setup and 
  other new control features. 
 
+ADD IN POWERFUL ATTACK that deal 40 damage >:) Normal damage 5-10
+
 4. Provide support for the numbers above the computer 
  and not just the numbers on the numpad. 
- This will be a quick fix and can improve user experience. 
+ This will be a quick fix and can improve user experience. DONE
 
 5. Finish up all the quests and flesh out town 2, 
  since my npc system was implemented much earlier with

@@ -47,6 +47,8 @@ namespace SlimeQuest
                 }
             }
         }
+
+
         public static void CheckTownMap(Universe universe, Humanoid.Location location)
         {
             foreach (Towns town in universe.TownList)
@@ -63,6 +65,12 @@ namespace SlimeQuest
             }
         }
 
+
+        /// <summary>
+        /// Checks for plants
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="adventurer"></param>
         public static void CheckForFoiliage(Universe universe, Adventurer adventurer)
         {
             foreach (Foiliage plant in universe.FoiliageList)
@@ -89,7 +97,11 @@ namespace SlimeQuest
                 }
             }
         }
-
+        /// <summary>
+        /// Checks for Furniture then displays it in the room you are in.
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="adventurer"></param>
         public static void CheckandDisplayRoomObjects(Universe universe, Adventurer adventurer)
         {
             foreach (var furniture in universe.FurnitureList)
@@ -118,6 +130,16 @@ namespace SlimeQuest
                         {
                             if (adventurer.Ypos == town.Ypos && adventurer.Xpos == town.Xpos)
                             {
+                                if (town.TownLocName == Humanoid.Location.Cave)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.Black;
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                }
+                                else if (town.TownLocName == Humanoid.Location.DefaultNameTown)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.Green;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                }
                                 TextBoxViews.ClearMapBox();
                                 adventurer.MapLocation = town.TownLocName;
                                 adventurer.PreviousLocations.Add(adventurer.MapLocation);
@@ -152,6 +174,8 @@ namespace SlimeQuest
                     case Humanoid.Location.DefaultNameTown:
                         if (adventurer.Ypos >= 50)
                         {
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            Console.ForegroundColor = ConsoleColor.Black;
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = Humanoid.Location.MainWorld;
 
@@ -163,6 +187,8 @@ namespace SlimeQuest
                     case Humanoid.Location.Cave:
                         if (adventurer.Ypos >= 50)
                         {
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            Console.ForegroundColor = ConsoleColor.Black;
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = Humanoid.Location.MainWorld;
 
@@ -296,6 +322,90 @@ namespace SlimeQuest
             }
 
         }
+
+
+        public static void CheckAndDisplayItemMap(Universe universe, Adventurer adventurer)
+        {
+            foreach (var item in universe.ItemList)
+            {
+                if ((item.houseLoc != House.houseName.None) && (item.houseLoc == adventurer.InHouseName))
+                {
+                    if (!item.itemTaken)
+                    {
+                        DisplayMap.DisplayItemToPickup(item.XPos,item.YPos);
+                    }
+                }
+                else if (item.worldLoc == adventurer.MapLocation)
+                {
+                    if (!item.itemTaken)
+                    {
+                        DisplayMap.DisplayItemToPickup(item.XPos, item.YPos);
+                    }
+                }
+            }
+        }
+
+        public static void CheckAndPickupItem(Universe universe, Adventurer adventurer)
+        {
+            int checkx = adventurer.Xpos;
+            int checky = adventurer.Ypos;
+            switch (adventurer.LookDirection)
+            {
+                case Humanoid.Direction.LEFT:
+                    checkx--;
+                    break;
+                case Humanoid.Direction.RIGHT:
+                    checkx++;
+                    break;
+                case Humanoid.Direction.UP:
+                    checky--;
+                    break;
+                case Humanoid.Direction.DOWN:
+                    checky++;
+                    break;
+                default:
+                    break;
+            }
+
+            foreach (var item in universe.ItemList)
+            {
+                if ((item.houseLoc != House.houseName.None) && (item.houseLoc == adventurer.InHouseName))
+                {
+                    if (!item.itemTaken)
+                    {
+                        
+                        if ((item.XPos == checkx) && (item.YPos == checky))
+                        {
+                            item.itemTaken = true;
+                            adventurer.ItemsDictionary[item.ItemType] += 1;
+                            DisplayMap.DisplayItemToPickup(item.XPos, item.YPos, item.itemTaken);
+                            TextBoxViews.WriteToMessageBox(universe, "You picked up a " + item.ItemType.ToString());
+                        }
+                        
+                    }
+
+                }
+                else if (item.worldLoc == adventurer.MapLocation)
+                {
+                    if (!item.itemTaken)
+                    {
+                        
+                        //matches locations
+                        if ((item.XPos == checkx) && (item.YPos == checky))
+                        {
+                            item.itemTaken = true;
+                            adventurer.ItemsDictionary[item.ItemType] += 1;
+                            DisplayMap.DisplayItemToPickup(item.XPos, item.YPos, item.itemTaken);
+                            TextBoxViews.WriteToMessageBox(universe, "You picked up a " + item.ItemType.ToString());
+                        }
+                    }
+                }
+            }
+        }//End of last Method
+
+
+
+
 
     }
 }

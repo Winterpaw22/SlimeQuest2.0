@@ -60,12 +60,14 @@ namespace SlimeQuest
                     Check.CheckNPCMap(universe, Humanoid.Location.MainWorld);
                     DisplayMap.DisplayTowns(universe, adventurer);
                     Check.CheckForFoiliage(universe, adventurer);
+                    Check.CheckAndDisplayItemMap(universe, adventurer);
                     break;
                 case Humanoid.Location.TutTown:
                     Check.CheckNPCMap(universe, Humanoid.Location.TutTown);
                     DisplayMap.DisplayNPC(universe);
                     DisplayMap.DisplayHouses(universe, adventurer);
                     Check.CheckForFoiliage(universe, adventurer);
+                    Check.CheckAndDisplayItemMap(universe, adventurer);
 
                     break;
                 case Humanoid.Location.DefaultNameTown:
@@ -73,10 +75,12 @@ namespace SlimeQuest
                     DisplayMap.DisplayNPC(universe);
                     DisplayMap.DisplayHouses(universe, adventurer);
                     Check.CheckForFoiliage(universe, adventurer);
+                    Check.CheckAndDisplayItemMap(universe, adventurer);
                     break;
                 case Humanoid.Location.Cave:
                     Check.CheckNPCMap(universe, Humanoid.Location.Cave);
                     DisplayMap.DisplayNPC(universe);
+                    Check.CheckAndDisplayItemMap(universe, adventurer); 
                     break;
                 default:
                     break;
@@ -173,9 +177,9 @@ namespace SlimeQuest
                     else if (npc.Name == "OLD MAN")
                     {
                         QuestTrigger(adventurer, universe, Adventurer.Quest.MeetTheOldMan);
-                        trig = false;
                     }
-                    else if (npc.listCurrent >= npc.listMax)
+
+                    if (npc.listCurrent >= npc.listMax)
                     {
                         npc.listCurrent = 0;
                     }
@@ -271,8 +275,10 @@ namespace SlimeQuest
                     InventoryManagment(adventurer, universe);
                     break;
                 case ConsoleKey.NumPad5:
+                    Check.CheckAndPickupItem(universe, adventurer);
                     break;
                 case ConsoleKey.NumPad6:
+                    TextDrawings.DisplaySlime();
                     break;
                 case ConsoleKey.NumPad7:
                     break;
@@ -294,6 +300,9 @@ namespace SlimeQuest
                     break;
                 case ConsoleKey.D4:
                     InventoryManagment(adventurer, universe);
+                    break;
+                case ConsoleKey.D5:
+                    Check.CheckAndPickupItem(universe, adventurer);
                     break;
 
                 case ConsoleKey.D9:
@@ -320,14 +329,12 @@ namespace SlimeQuest
             Dictionary<Item.Items,int> itemList = new Dictionary<Item.Items, int>();
             Item.Items[] itemarray = new Item.Items[10];
             int i = 0;
-            foreach (var item in adventurer.PlayerItemsDictionary)
+            foreach (var item in adventurer.ItemsDictionary)
             {
 
-                if (item.Value > 0)
-                {
-                    itemList.Add(item.Key,item.Value);
-                    itemarray[i] = item.Key;
-                }
+                itemList.Add(item.Key,item.Value);
+                itemarray[i] = item.Key;
+                
                 i++;
             }
 
@@ -426,51 +433,65 @@ namespace SlimeQuest
                 }
                 finally
                 {
-                    if (!error && !(key.Key == ConsoleKey.D9 || key.Key == ConsoleKey.NumPad9))
+                    //I decided im not dealing with the program deciding to add to nothing. tOb can keep trying though
+                    try
                     {
-
-
-                        switch (itemToUse)
+                        if (!error && !(key.Key == ConsoleKey.D9 || key.Key == ConsoleKey.NumPad9) && !(adventurer.ItemsDictionary[itemToUse] <= 0))
                         {
-                            case Item.Items.HealthPotion:
-                                TextBoxViews.WriteToMessageBox(universe, " You regained 20 health");
-                                Adventurer.PlayerPotionHeal(adventurer, universe);
-                                adventurer.PlayerItemsDictionary[itemToUse] = itemList[itemToUse];
-                                break;
-                            case Item.Items.ManaPotion:
-                                TextBoxViews.WriteToMessageBox(universe, "You feel all tingly inside");
-                                adventurer.PlayerItemsDictionary[itemToUse] = itemList[itemToUse];
-                                break;
-                            case Item.Items.Stone:
-                                TextBoxViews.WriteToMessageBox(universe, "You throw the stone and it vanishes into the distance...");
-                                adventurer.PlayerItemsDictionary[itemToUse] = itemList[itemToUse];
-                                break;
-                            case Item.Items.SlimeGel:
-                                TextBoxViews.WriteToMessageBox(universe, "You cannot use slime...");
-                                break;
-                            case Item.Items.Parcel:
-                                TextBoxViews.WriteToMessageBox(universe, "You cannot use the parcel you are delivering!");
 
-                                break;
-                            case Item.Items.Nothing:
-                                TextBoxViews.WriteToMessageBox(universe, "There is nothing there");
 
-                                break;
-                            default:
-                                break;
+                            switch (itemToUse)
+                            {
+                                case Item.Items.HealthPotion:
+                                    Adventurer.PlayerPotionHeal(adventurer, universe);
+                                    adventurer.ItemsDictionary[itemToUse] = itemList[itemToUse];
+                                    break;
+                                case Item.Items.ManaPotion:
+                                    TextBoxViews.WriteToMessageBox(universe, "You feel all tingly inside");
+                                    adventurer.ItemsDictionary[itemToUse] = itemList[itemToUse];
+                                    break;
+                                case Item.Items.Stone:
+                                    TextBoxViews.WriteToMessageBox(universe, "You throw the stone and it vanishes into the distance...");
+                                    adventurer.ItemsDictionary[itemToUse] = itemList[itemToUse];
+                                    break;
+                                case Item.Items.SlimeGel:
+                                    TextBoxViews.WriteToMessageBox(universe, "You cannot use slime...");
+                                    itemList[itemToUse]++;
+                                    break;
+                                case Item.Items.Parcel:
+                                    TextBoxViews.WriteToMessageBox(universe, "You cannot use the parcel you are delivering!");
+                                    itemList[itemToUse]++;
+                                    break;
+                                case Item.Items.Nothing:
+                                    TextBoxViews.WriteToMessageBox(universe, "There is nothing there");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        if ((key.Key != ConsoleKey.D9 || key.Key != ConsoleKey.NumPad9))
+
+                        else if (!(key.Key == ConsoleKey.D9 || key.Key == ConsoleKey.NumPad9) && (itemList[itemToUse] < 0))
                         {
                             TextBoxViews.WriteToMessageBox(universe, "You dont have that item");
+
+                            itemList[itemToUse]++;
+
                         }
-                        
+                        else if (!(key.Key == ConsoleKey.D9 || key.Key == ConsoleKey.NumPad9))
+                        {
+                            TextBoxViews.WriteToMessageBox(universe, "You dont have that item");
+
+                        }
                     }
-                }
+                    catch (Exception)
+                    {
+
+                        
+                    }//End try catch inventory navigation
+
+                }//end finally
                 
-            }
+            }//end using inventory while
 
 
             TextBoxViews.DisplayMenu(universe);
@@ -589,32 +610,33 @@ namespace SlimeQuest
                 }
 
                 //Prints question
-                TextBoxViews.ReWriteToMessageBox(universe,"So you want to buy " + itemToPurchase[item] + " " + item + "(s) for " + cost + " gold? Yes/No", true);
-
-                //Gets user input
-                purchase = Validators.ValidYesNo();
-
-                //checks if the player has enough coins
-                if (purchase && (adventurer.Coins >= cost))
+                if (keepShopping == true)
                 {
-                    adventurer.PlayerItemsDictionary[item] = itemToPurchase[item];
-                    adventurer.Coins -= cost;
+                    TextBoxViews.ReWriteToMessageBox(universe, "So you want to buy " + itemToPurchase[item] + " " + item + "(s) for " + cost + " gold? Yes/No", true);
 
-                    TextBoxViews.ReWriteToMessageBox(universe, "Thanks for buyin", true);
-
-
+                    //Gets user input
+                    purchase = Validators.ValidYesNo();
                 }
 
-                else if (purchase && !(adventurer.Coins >= cost))
+                if (keepShopping)
                 {
-                    TextBoxViews.ReWriteToMessageBox(universe, "Hey! You dont have enough to buy that!!!", true);
-                }
 
-                else if (!purchase)
-                {
-                    TextBoxViews.ReWriteToMessageBox(universe, "Keep Shopping?", true);
 
-                    keepShopping = Validators.ValidYesNo();
+                    //checks if the player has enough coins
+                    if (purchase && (adventurer.Coins >= cost))
+                    {
+                        adventurer.ItemsDictionary[item] = itemToPurchase[item];
+                        adventurer.Coins -= cost;
+
+                        TextBoxViews.ReWriteToMessageBox(universe, "Thanks for buyin", true);
+
+
+                    }
+
+                    else if (purchase && !(adventurer.Coins >= cost))
+                    {
+                        TextBoxViews.ReWriteToMessageBox(universe, "Hey! You dont have enough to buy that!!!", true);
+                    }
                 }
                 TextBoxViews.DisplayPlayerInfo(adventurer);
             }
