@@ -13,7 +13,8 @@ namespace SlimeQuest
             Tree,
             Grass,
             Flower,
-            Field
+            Field,
+            Fountain
         }
 
         

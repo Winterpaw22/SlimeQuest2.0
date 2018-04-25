@@ -12,13 +12,10 @@ namespace SlimeQuest
     {
         public static void CheckPosition(Adventurer adventurer, Universe universe)
         {
-            //int[] lastPosition = new int[2];
-
-            //lastPosition[0] = adventurer.Xpos;
-            //lastPosition[1] = adventurer.Ypos;
 
             //checks for current quest and if you complete the quest or not
             Check.CheckPlayerQuest(universe, adventurer);
+
             //Checks what map you are on and then Draws the correct entities to the screen
             Check.CheckPlayerPosition(universe, adventurer);
 
@@ -36,7 +33,9 @@ namespace SlimeQuest
                         DisplayMap.DisplayHouseInside(universe);
                         Check.CheckNPCMap(universe, adventurer.InHouseName);
                         DisplayMap.DisplayNPC(universe);
+                        Check.CheckAndDisplayItemMap(universe,adventurer);
                         //Handles all objects in the "rooms"
+
                         //NEW IDEA, Hows bout thats annoying and no
                         Check.CheckandDisplayRoomObjects(universe,adventurer);
                     }
@@ -49,7 +48,7 @@ namespace SlimeQuest
             Console.SetCursorPosition(110, 20);
             Console.Write("QUEST: " +  adventurer.CurrentQuest);
             Console.SetCursorPosition(110, 22);
-            Console.Write("                        ");
+            Console.Write("                       ");
         }
 
         public static void DisplayMapObjects(Adventurer adventurer, Universe universe)
@@ -70,8 +69,8 @@ namespace SlimeQuest
                     Check.CheckAndDisplayItemMap(universe, adventurer);
 
                     break;
-                case Humanoid.Location.DefaultNameTown:
-                    Check.CheckNPCMap(universe, Humanoid.Location.DefaultNameTown);
+                case Humanoid.Location.CherryGrove:
+                    Check.CheckNPCMap(universe, Humanoid.Location.CherryGrove);
                     DisplayMap.DisplayNPC(universe);
                     DisplayMap.DisplayHouses(universe, adventurer);
                     Check.CheckForFoiliage(universe, adventurer);
@@ -80,7 +79,8 @@ namespace SlimeQuest
                 case Humanoid.Location.Cave:
                     Check.CheckNPCMap(universe, Humanoid.Location.Cave);
                     DisplayMap.DisplayNPC(universe);
-                    Check.CheckAndDisplayItemMap(universe, adventurer); 
+                    Check.CheckAndDisplayItemMap(universe, adventurer);
+                    Check.CheckandDisplayCaveEnemies(universe);
                     break;
                 default:
                     break;
@@ -165,26 +165,93 @@ namespace SlimeQuest
             {
                 if (npc.Xpos == xPos && npc.Ypos == yPos)
                 {
+                    TextBoxViews.RedrawBox(universe, 7);
+                    TextBoxViews.WriteToNpcNameBox(npc.Name);
 
                     text = npc.messages[npc.listCurrent];
                     npc.listCurrent++;
-                    if (npc.Name == "Merchant")
+                    if (npc.MapLocation == adventurer.MapLocation)
                     {
-                        TextBoxViews.MerchantMessage(universe, adventurer);
-                        trig = false;
-                        QuestTrigger(adventurer, universe, Adventurer.Quest.GoShopping);
+                        if (npc.Name == "Merchant")
+                        {
+                            TextBoxViews.MerchantMessage(universe, adventurer);
+                            trig = false;
+                            QuestTrigger(adventurer, universe, Adventurer.Quest.GoShopping);
+                        }
+                        else if (npc.Name == "OLD MAN")
+                        {
+                            QuestTrigger(adventurer, universe, Adventurer.Quest.MeetTheOldMan);
+                        }
+                        else if (npc.Name == "Cerri")
+                        {
+                            if (adventurer.ItemsDictionary[Item.Items.Parcel] >= 1)
+                            {
+                                TextBoxViews.WriteToMessageBox(universe, "Oh? You found my parcel! Thank you!");
+                                adventurer.ItemsDictionary[Item.Items.Parcel]--;
+                                TextBoxViews.WriteToMessageBox(universe, "Here is a few Health potions for your troubles.");
+                                adventurer.ItemsDictionary[Item.Items.HealthPotion] += 2;
+                                trig = false;
+                                QuestTrigger(adventurer, universe, Adventurer.Quest.DeliverTheParcel);
+                            }
+                        }
+                        else if (npc.Name == "Arista")
+                        {
+                            adventurer.Health = adventurer.MaxHealth;
+                        }
                     }
-                    else if (npc.Name == "OLD MAN")
+                    else if (adventurer.InHouseName == npc.InHouseName)
                     {
-                        QuestTrigger(adventurer, universe, Adventurer.Quest.MeetTheOldMan);
+                        if (npc.Name == "Merchant")
+                        {
+                            TextBoxViews.MerchantMessage(universe, adventurer);
+                            trig = false;
+                            QuestTrigger(adventurer, universe, Adventurer.Quest.GoShopping);
+                        }
+                        else if (npc.Name == "OLD MAN")
+                        {
+                            QuestTrigger(adventurer, universe, Adventurer.Quest.MeetTheOldMan);
+                        }
+                        else if (npc.Name == "Cerri")
+                        {
+                            if (adventurer.ItemsDictionary[Item.Items.Parcel] >= 1)
+                            {
+                                TextBoxViews.WriteToMessageBox(universe, "Oh? You found my parcel! Thank you!");
+                                adventurer.ItemsDictionary[Item.Items.Parcel]--;
+                                TextBoxViews.WriteToMessageBox(universe, "Here is a few Health potions for your troubles.");
+                                adventurer.ItemsDictionary[Item.Items.HealthPotion] += 2;
+                                trig = false;
+                                QuestTrigger(adventurer, universe, Adventurer.Quest.DeliverTheParcel);
+                            }
+                        }
+                        else if (npc.Name == "Arista")
+                        {
+                            adventurer.Health = adventurer.MaxHealth;
+                        }
                     }
+
+                    
 
                     if (npc.listCurrent >= npc.listMax)
                     {
                         npc.listCurrent = 0;
                     }
+                    TextBoxViews.RemoveBox(universe,7);
+                    TextBoxViews.RemoveContent(universe,7);
                     
-                    
+                }
+            }
+            if (adventurer.MapLocation == Humanoid.Location.Cave)
+            {
+                foreach (var enemy in universe.TripleTrouble)
+                {
+                    if (!enemy.Defeated && (enemy.Ypos == yPos) && ( enemy.Xpos == xPos))
+                    {
+                        TextBoxViews.WriteToMessageBox(universe,"I will Beat you!!!");
+                        enemy.Defeated = true;
+                        Slime slime = new Slime();
+                        Slime.InitializeNewSlime(slime,true);
+                        adventurer.diedOnFinal = !Battle.BattleLoop(adventurer, universe, slime);
+                    }
                 }
             }
             if (trig)
@@ -278,7 +345,6 @@ namespace SlimeQuest
                     Check.CheckAndPickupItem(universe, adventurer);
                     break;
                 case ConsoleKey.NumPad6:
-                    TextDrawings.DisplaySlime();
                     break;
                 case ConsoleKey.NumPad7:
                     break;
@@ -348,6 +414,7 @@ namespace SlimeQuest
                 key = Console.ReadKey();
                 try
                 {
+                    //remove use item from temp inventory
                     switch (key.Key)
                     {
                         case ConsoleKey.D1:
@@ -421,6 +488,22 @@ namespace SlimeQuest
                         case ConsoleKey.NumPad9:
                             usingInventory = false;
                             break;
+
+
+                        case ConsoleKey.LeftArrow:
+                            usingInventory = false;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            usingInventory = false;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            usingInventory = false;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            usingInventory = false;
+                            break;
+
+
 
                         default:
                             break;
@@ -603,6 +686,23 @@ namespace SlimeQuest
                             chooseSomething = false;
                             break;
 
+                        case ConsoleKey.LeftArrow:
+                            keepShopping = false;
+                            chooseSomething = false;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            keepShopping = false;
+                            chooseSomething = false;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            keepShopping = false;
+                            chooseSomething = false;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            keepShopping = false;
+                            chooseSomething = false;
+                            break;
+
                         default:
                             TextBoxViews.ReWriteToMessageBox(universe, "Please choose something I have and not the air please.",true);
                             break;
@@ -625,7 +725,7 @@ namespace SlimeQuest
                     //checks if the player has enough coins
                     if (purchase && (adventurer.Coins >= cost))
                     {
-                        adventurer.ItemsDictionary[item] = itemToPurchase[item];
+                        adventurer.ItemsDictionary[item] += itemToPurchase[item];
                         adventurer.Coins -= cost;
 
                         TextBoxViews.ReWriteToMessageBox(universe, "Thanks for buyin", true);

@@ -1,0 +1,87 @@
+WAR GAMES WATCH
+
+ADD IN PLAYER EXPERIENCE
+LEVELUP EVERY 100 + 50 per level
+
+NO BACKGROUND COLOR CHANGING
+
+NEW BOX 
+xs 4
+ys 41
+
+xe 20
+ye 43
+
+
+startmsg AT
+7,41
+
+
+FLEHS OUT EVERYTHING
+BEDS 
+74, 18 Playerhome
+
+DESK
+35, 20 player
+68,18 player
+
+TABLE 
+42, 26 player
+HOUSE
+70,23 Default market
+65, 33 default
+
+FOUNTAIN CREATE
+51,20 OLD
+
+NEW 45,22
+
+ENTER HOUSE DARK MAGENTA 
+29,26
+ENTER HOUSE RED
+39,36
+
+TREES IN DEFAULT
+31,12
+23,18
+90,18
+94,28
+87,38
+
+
+MERCHANT 35,18
+Arista
+Cerri
+Player
+Amasta = orc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fix items outside house(items from town map into housmap)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

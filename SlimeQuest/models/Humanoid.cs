@@ -27,7 +27,7 @@ namespace SlimeQuest
             None,
             MainWorld,
             TutTown,
-            DefaultNameTown,
+            CherryGrove,
             Cave
         }
 
@@ -90,8 +90,6 @@ namespace SlimeQuest
             get { return _lastDirection; }
             set { _lastDirection = value; }
         }
-
-        
         public House.houseName InHouseName
         {
             get { return _inHouseName; }

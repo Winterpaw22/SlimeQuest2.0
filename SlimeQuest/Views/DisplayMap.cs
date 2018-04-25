@@ -39,16 +39,21 @@ namespace SlimeQuest
             {
                 foreach (House house in universe.HouseList)
                 {
-                    switch (adventurer.MapLocation)
+                    if (adventurer.MapLocation == house.HouseLoc)
                     {
-                        case Humanoid.Location.TutTown:
-                            DisplayHouse(house.Xpos, house.Ypos,house.HouseColor);
-                            break;
-                        case Humanoid.Location.DefaultNameTown:
-                            DisplayHouse(house.Xpos, house.Ypos,house.HouseColor);
-                            break;
-                        default:
-                            break;
+
+
+                        switch (adventurer.MapLocation)
+                        {
+                            case Humanoid.Location.TutTown:
+                                DisplayHouse(house.Xpos, house.Ypos, house.HouseColor);
+                                break;
+                            case Humanoid.Location.CherryGrove:
+                                DisplayHouse(house.Xpos, house.Ypos, house.HouseColor);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     
                 }
@@ -224,8 +229,39 @@ namespace SlimeQuest
 
                     Console.SetCursorPosition(Xstart, Ystart + 3);
                     Console.Write("_");
+                    break;
+
+                case Furniture.FurnitureType.Bed:
+                    Console.SetCursorPosition(Xstart, Ystart);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart, Ystart + 1);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart, Ystart + 2);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart, Ystart + 3);
+                    Console.Write("|");
+
+                    Console.SetCursorPosition(Xstart + 1, Ystart);
+                    Console.Write("=");
+                    Console.SetCursorPosition(Xstart + 1, Ystart + 1);
+                    Console.Write("o");
+
+
+                    Console.SetCursorPosition(Xstart + 1, Ystart + 3);
+                    Console.Write("_");
+
+                    Console.SetCursorPosition(Xstart + 2, Ystart);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart + 2, Ystart + 1);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart + 2, Ystart + 2);
+                    Console.Write("|");
+                    Console.SetCursorPosition(Xstart + 2, Ystart + 3);
+                    Console.Write("|");
+
 
                     break;
+
                 case Furniture.FurnitureType.Desk:
                     Console.SetCursorPosition(Xstart + 1, Ystart);
                     Console.Write("-");
@@ -249,7 +285,6 @@ namespace SlimeQuest
                     break;
 
                 case Furniture.FurnitureType.Table:
-
                     Console.SetCursorPosition(Xstart + 1, Ystart);
                     Console.Write("-");
                     Console.SetCursorPosition(Xstart + 2, Ystart);

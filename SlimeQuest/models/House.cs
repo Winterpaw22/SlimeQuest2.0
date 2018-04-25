@@ -15,7 +15,7 @@ namespace SlimeQuest
             PlayerHome,
             HealHouse,
             Market,
-            CerryHouse,
+            CerriHouse,
             AmastaHouse,
             AristaHouse
 

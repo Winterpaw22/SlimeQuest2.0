@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SlimeQuest
 {
@@ -46,6 +47,7 @@ namespace SlimeQuest
                     person.present = false;
                 }
             }
+
         }
 
 
@@ -90,6 +92,9 @@ namespace SlimeQuest
                         case Foiliage.plantType.Field:
                             DisplayMap.DisplayPlantGrass(plant.XPos, plant.XEnd, plant.YPos, plant.YEnd, plant.CharIcon);
                             break;
+                        case Foiliage.plantType.Fountain:
+                            TextDrawings.DisplayFountain(plant.XPos, plant.YPos);
+                            break;
                         default:
                             break;
                     }
@@ -115,7 +120,7 @@ namespace SlimeQuest
         }
 
         /// <summary>
-        /// Checks the player's position
+        /// Checks the player's position Handles BOTH mainworld and House Locations
         /// </summary>
         /// <param name="universe"></param>
         /// <param name="adventurer"></param>
@@ -130,16 +135,12 @@ namespace SlimeQuest
                         {
                             if (adventurer.Ypos == town.Ypos && adventurer.Xpos == town.Xpos)
                             {
-                                if (town.TownLocName == Humanoid.Location.Cave)
-                                {
-                                    Console.BackgroundColor = ConsoleColor.Black;
-                                    Console.ForegroundColor = ConsoleColor.Gray;
-                                }
-                                else if (town.TownLocName == Humanoid.Location.DefaultNameTown)
-                                {
-                                    Console.BackgroundColor = ConsoleColor.Green;
-                                    Console.ForegroundColor = ConsoleColor.Black;
-                                }
+
+
+                                TextBoxViews.RedrawBox(universe,6);
+                                TextBoxViews.WriteToEvent(adventurer.MapLocation.ToString());
+
+
                                 TextBoxViews.ClearMapBox();
                                 adventurer.MapLocation = town.TownLocName;
                                 adventurer.PreviousLocations.Add(adventurer.MapLocation);
@@ -147,55 +148,85 @@ namespace SlimeQuest
                                 adventurer.Ypos = 48;
                             }
                         }
+                        TextBoxViews.RedrawBox(universe, 6);
+                        TextBoxViews.WriteToEvent(adventurer.MapLocation.ToString());
                         break;
                     case Humanoid.Location.TutTown:
                         if (adventurer.Ypos >= 50)
                         {
+                            
+
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = Humanoid.Location.MainWorld;
                             adventurer.Xpos = universe.TownList[0].Xpos;
                             adventurer.Ypos = universe.TownList[0].Ypos;
                             adventurer.PreviousLocations.Add(adventurer.MapLocation);
+                            Map.QuestTrigger(adventurer,universe,Adventurer.Quest.LeaveHome);
+                            TextBoxViews.RedrawBox(universe, 6);
+                            TextBoxViews.WriteToEvent(adventurer.MapLocation.ToString());
                         }
                         foreach (var house in universe.HouseList)
                         {
-                            if ((adventurer.Xpos == house.EnterPosition[0]) && (adventurer.Ypos == house.EnterPosition[1]))
+                            if ((adventurer.Xpos == house.EnterPosition[0]) && (adventurer.Ypos == house.EnterPosition[1]) && (house.HouseLoc == Humanoid.Location.TutTown))
                             {
                                 adventurer.InaHouse = true;
                                 house.PlayerInside = true;
                                 adventurer.Xpos = 56;
                                 adventurer.Ypos = 32;
                                 adventurer.InHouseName = house.HouseName;
+                                TextBoxViews.RedrawBox(universe, 6);
+                                TextBoxViews.WriteToEvent(adventurer.InHouseName.ToString());
+
                                 TextBoxViews.ClearMapBox();
                             }
                         }
+                        TextBoxViews.RedrawBox(universe, 6);
+                        TextBoxViews.WriteToEvent(adventurer.MapLocation.ToString());
 
                         break;
-                    case Humanoid.Location.DefaultNameTown:
+                    case Humanoid.Location.CherryGrove:
+                        Map.QuestTrigger(adventurer,universe,Adventurer.Quest.TheNewGuyInTown);
                         if (adventurer.Ypos >= 50)
                         {
-                            Console.BackgroundColor = ConsoleColor.Gray;
-                            Console.ForegroundColor = ConsoleColor.Black;
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = Humanoid.Location.MainWorld;
 
                             adventurer.Xpos = universe.TownList[1].Xpos;
                             adventurer.Ypos = universe.TownList[1].Ypos;
                             adventurer.PreviousLocations.Add(adventurer.MapLocation);
+                            
                         }
+                        foreach (var house in universe.HouseList)
+                        {
+                            if ((adventurer.Xpos == house.EnterPosition[0]) && (adventurer.Ypos == house.EnterPosition[1]) && (house.HouseLoc == Humanoid.Location.CherryGrove))
+                            {
+                                adventurer.InaHouse = true;
+                                house.PlayerInside = true;
+                                adventurer.Xpos = 56;
+                                adventurer.Ypos = 32;
+                                adventurer.InHouseName = house.HouseName;
+
+                                TextBoxViews.RedrawBox(universe, 6);
+                                TextBoxViews.WriteToEvent(adventurer.InHouseName.ToString());
+
+                                TextBoxViews.ClearMapBox();
+                            }
+                        }
+                        TextBoxViews.RedrawBox(universe, 6);
+                        TextBoxViews.WriteToEvent(adventurer.MapLocation.ToString());
                         break;
                     case Humanoid.Location.Cave:
                         if (adventurer.Ypos >= 50)
                         {
-                            Console.BackgroundColor = ConsoleColor.Gray;
-                            Console.ForegroundColor = ConsoleColor.Black;
                             TextBoxViews.ClearMapBox();
                             adventurer.MapLocation = Humanoid.Location.MainWorld;
+                            
 
                             adventurer.Xpos = universe.TownList[3].Xpos;
                             adventurer.Ypos = universe.TownList[3].Ypos;
                             adventurer.PreviousLocations.Add(adventurer.MapLocation);
                         }
+                        
                         break;
                     default:
                         break;
@@ -221,12 +252,32 @@ namespace SlimeQuest
                                 {
                                     house.PlayerInside = false;
                                     adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
                                 }
                             }
                             TextBoxViews.ClearMapBox();
                         }
                         break;
                     case House.houseName.HealHouse:
+                        if (adventurer.Xpos == 56 && adventurer.Ypos == 33)
+                        {
+                            adventurer.InaHouse = false;
+
+                            foreach (var house in universe.HouseList)
+                            {
+                                if (adventurer.InHouseName == house.HouseName)
+                                {
+                                    house.PlayerInside = false;
+                                    adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
+                                }
+                            }
+                            TextBoxViews.ClearMapBox();
+                        }
                         break;
                     case House.houseName.Market:
                         if (adventurer.Xpos == 56 && adventurer.Ypos == 33)
@@ -239,16 +290,71 @@ namespace SlimeQuest
                                 {
                                     house.PlayerInside = false;
                                     adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
                                 }
                             }
                             TextBoxViews.ClearMapBox();
                         }
                         break;
-                    case House.houseName.CerryHouse:
+                    case House.houseName.CerriHouse:
+                        
+                        if (adventurer.Xpos == 56 && adventurer.Ypos == 33)
+                        {
+                            adventurer.InaHouse = false;
+
+                            foreach (var house in universe.HouseList)
+                            {
+                                if (adventurer.InHouseName == house.HouseName)
+                                {
+                                    house.PlayerInside = false;
+                                    adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
+                                }
+                            }
+                            TextBoxViews.ClearMapBox();
+                        }
                         break;
                     case House.houseName.AmastaHouse:
+                        if (adventurer.Xpos == 56 && adventurer.Ypos == 33)
+                        {
+                            adventurer.InaHouse = false;
+
+                            foreach (var house in universe.HouseList)
+                            {
+                                if (adventurer.InHouseName == house.HouseName)
+                                {
+                                    house.PlayerInside = false;
+                                    adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
+                                }
+                            }
+                            TextBoxViews.ClearMapBox();
+                        }
                         break;
                     case House.houseName.AristaHouse:
+                        if (adventurer.Xpos == 56 && adventurer.Ypos == 33)
+                        {
+                            adventurer.InaHouse = false;
+
+                            foreach (var house in universe.HouseList)
+                            {
+                                if (adventurer.InHouseName == house.HouseName)
+                                {
+                                    house.PlayerInside = false;
+                                    adventurer.InHouseName = House.houseName.None;
+
+                                    adventurer.Xpos = house.EnterPosition[0];
+                                    adventurer.Ypos = house.EnterPosition[1] + 1;
+                                }
+                            }
+                            TextBoxViews.ClearMapBox();
+                        }
                         break;
                     default:
                         break;
@@ -278,10 +384,13 @@ namespace SlimeQuest
                             {
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("Completed Quest");
-                                System.Threading.Thread.Sleep(2000);
-                                adventurer.CurrentQuest = Adventurer.Quest.GoHome;
+
+                                Thread.Sleep(1000);
+
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.GoHome;
                                 adventurer.QuestDone[0] = true;
                             }
                             break;
@@ -292,27 +401,104 @@ namespace SlimeQuest
                             {
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("Completed Quest");
-                                System.Threading.Thread.Sleep(2000);
-                                adventurer.CurrentQuest = Adventurer.Quest.LeaveHome;
+
+                                Thread.Sleep(1000);
+
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.GoShopping;
+
                                 adventurer.QuestDone[1] = true;
                             }
                             break;
-                        case Adventurer.Quest.LeaveHome:
-                            TextBoxViews.DisplayQuest("Leave town");
+
+                        case Adventurer.Quest.GoShopping:
+                            TextBoxViews.DisplayQuest("Go buy some supplies");
                             if (quest.Value && !adventurer.QuestDone[2])
                             {
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("Completed Quest");
-                                System.Threading.Thread.Sleep(2000);
-                                adventurer.CurrentQuest = Adventurer.Quest.LeaveHome;
+
+                                Thread.Sleep(1000);
+
                                 Console.SetCursorPosition(110, 24);
                                 Console.Write("               ");
+
+
+                                adventurer.CurrentQuest = Adventurer.Quest.LeaveHome;
                                 adventurer.QuestDone[2] = true;
                             }
                             break;
+
+                        case Adventurer.Quest.LeaveHome:
+                            TextBoxViews.DisplayQuest("Leave town");
+                            if (quest.Value && !adventurer.QuestDone[3])
+                            {
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("Completed Quest");
+
+                                Thread.Sleep(1000);
+
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.TheNewGuyInTown;
+                                adventurer.QuestDone[3] = true;
+                            }
+                            break;
+                        
+                        
                         case Adventurer.Quest.TheNewGuyInTown:
+                            TextBoxViews.DisplayQuest("Go to town 2");
+                            if (quest.Value && !adventurer.QuestDone[4])
+                            {
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("Completed Quest");
+
+                                Thread.Sleep(1000);
+
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.DeliverTheParcel;
+                                adventurer.QuestDone[4] = true;
+                            }
+                            break;
+                        case Adventurer.Quest.DeliverTheParcel:
+                            TextBoxViews.DisplayQuest("Find the parcel in Town");
+                            if (quest.Value && !adventurer.QuestDone[5])
+                            {
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("Completed Quest");
+
+                                Thread.Sleep(1000);
+
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.FightTheCaveTrio;
+                                adventurer.QuestDone[5] = true;
+                            }
+                            break;
+                        case Adventurer.Quest.FightTheCaveTrio:
+                            TextBoxViews.DisplayQuest("Go fight the trio!");
+                            if (quest.Value && !adventurer.QuestDone[6])
+                            {
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("Completed Quest");
+
+                                Thread.Sleep(1000);
+
+                                Console.SetCursorPosition(110, 24);
+                                Console.Write("               ");
+
+                                adventurer.CurrentQuest = Adventurer.Quest.None;
+                                
+                                adventurer.QuestDone[6] = true;
+                                adventurer.playerWin = true;
+                                
+                            }
                             break;
                         default:
                             break;
@@ -323,9 +509,55 @@ namespace SlimeQuest
 
         }
 
+        /// <summary>
+        /// displays evil trio
+        /// </summary>
+        /// <param name="universe"></param>
+        public static void CheckandDisplayCaveEnemies(Universe universe)
+        {
+            foreach(var person in universe.TripleTrouble)
+            {
+                if (person.MapLocation == Humanoid.Location.Cave)
+                {
+                    if (!person.Defeated)
+                    {
+                        person.present = true;
+                    }
+                    else if (person.Defeated)
+                    {
+                        person.present = false;
+                    }
+                }
+                else
+                {
+                    person.present = false;
+                }
 
+                if (person.present)
+                {
+                    Console.SetCursorPosition(person.Xpos, person.Ypos);
+
+                    Console.Write(person.charIcon);
+                }
+                else
+                {
+                    Console.SetCursorPosition(person.Xpos, person.Ypos);
+
+                    Console.Write(" ");
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Checks for it3ems then displays them onto the current map you are on
+        /// </summary>
+        /// <param name="universe"></param>
+        /// <param name="adventurer"></param>
         public static void CheckAndDisplayItemMap(Universe universe, Adventurer adventurer)
         {
+            bool noMapItems = false;
             foreach (var item in universe.ItemList)
             {
                 if ((item.houseLoc != House.houseName.None) && (item.houseLoc == adventurer.InHouseName))
@@ -333,9 +565,10 @@ namespace SlimeQuest
                     if (!item.itemTaken)
                     {
                         DisplayMap.DisplayItemToPickup(item.XPos,item.YPos);
+                        noMapItems = true;
                     }
                 }
-                else if (item.worldLoc == adventurer.MapLocation)
+                else if (item.worldLoc == adventurer.MapLocation && !noMapItems)
                 {
                     if (!item.itemTaken)
                     {

@@ -12,6 +12,7 @@ namespace SlimeQuest
         
         public enum Quest
         {
+            None,
             MeetTheOldMan,
             GoHome,
             GoShopping,
@@ -41,10 +42,13 @@ namespace SlimeQuest
 
         private int _age;
         private int _health;
+        public int MaxHealth { get; set; }
+
         private Weapon _weapon;
         private List<Humanoid.Location> _prevLoc;
 
         private bool _inaHouse;
+
 
 
 
@@ -53,10 +57,16 @@ namespace SlimeQuest
 
         private int _coins;
 
-        
+        public int Experinece { get; set; }
 
+        public int MaxExperience{ get; set; }
+        public int Damage { get; set; }
 
+        public int PlayerLevel { get; set; }
 
+        public bool diedOnFinal { get; set; }
+
+        public bool playerWin { get; set; }
 
 
         public Quest CurrentQuest
@@ -176,10 +186,27 @@ namespace SlimeQuest
             TextBoxViews.WriteToMessageBox(universe,"You drank the health potion and healed for 20 health");
             adventurer.Health += 20;
 
-            if(adventurer.Health > 100)
+            if(adventurer.Health > adventurer.MaxHealth)
             {
-                adventurer.Health = 100;
+                adventurer.Health = adventurer.MaxHealth;
             }
+            TextBoxViews.DisplayPlayerInfo(adventurer);
+        }
+
+        public static void PlayerLevelUp(Adventurer adventurer, Universe universe)
+        {
+            adventurer.Experinece = 0;
+            adventurer.MaxExperience += 30;
+
+            adventurer.MaxHealth += 10;
+            adventurer.Damage += 3;
+            adventurer.PlayerLevel++;
+
+            adventurer.Health = adventurer.MaxHealth;
+            TextBoxViews.WriteToMessageBox(universe, $"You Leveled up! /n Max Health : {adventurer.MaxHealth} /n Damage : {adventurer.Damage}");
+            TextBoxViews.DisplayPlayerInfo(adventurer);
+
+            
         }
 
 

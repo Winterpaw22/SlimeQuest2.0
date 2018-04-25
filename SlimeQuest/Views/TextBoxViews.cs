@@ -226,6 +226,7 @@ namespace SlimeQuest
             adventurer.PlayerRace = Adventurer.Race.Slime;
             adventurer.PlayerWeapon = Adventurer.Weapon.Bow;
             adventurer.Health = 100;
+            adventurer.MaxHealth = 100;
             adventurer.MapLocation = Adventurer.Location.TutTown;
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
@@ -239,30 +240,43 @@ namespace SlimeQuest
             adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
             adventurer.QuestDone = Adventurer.InstantiateQuestCompletionMessageCheck();
 
+            adventurer.playerWin = false;
+
+            adventurer.Damage = 9;
+
+            adventurer.CurrentQuest = Adventurer.Quest.MeetTheOldMan;
+
+            adventurer.PlayerLevel = 1;
+            adventurer.Experinece = 95;
+            adventurer.MaxExperience = 100;
+
+            adventurer.diedOnFinal = false;
+
+
             return adventurer;
         }
-        public static Adventurer GetPlayerInfo()
+        public static Adventurer GetPlayerInfo(Universe universe)
         {
             Adventurer adventurer = new Adventurer();
 
             ClearInputBox();
-            Console.SetCursorPosition(6,46);
-            Console.Write("Please enter your name young one.");
+
+            ReWriteToMessageBox(universe, "Please enter your name young one.", true);
             Console.SetCursorPosition(4, 56);
             adventurer.Name = Console.ReadLine();
             ClearTextBox();
             ClearErrorTextBox();
 
 
-            Console.SetCursorPosition(6, 46);
-            Console.Write("Please enter your age " + adventurer.Name);
+
+            ReWriteToMessageBox(universe, "Please enter your age " + adventurer.Name, true);
             adventurer.Age = Validators.ValidInt();
             ClearTextBox();
             ClearErrorTextBox();
 
 
-            Console.SetCursorPosition(6, 46);
-            Console.Write("What race are you?");
+
+            ReWriteToMessageBox(universe, "What race are you?", true);
             Console.SetCursorPosition(6, 47);
             Console.Write(Adventurer.Race.Human);
             Console.SetCursorPosition(6, 48);
@@ -276,8 +290,8 @@ namespace SlimeQuest
             ClearTextBox();
             ClearErrorTextBox();
 
-            Console.SetCursorPosition(6, 46);
-            Console.Write("What Weapon will you use?");
+
+            ReWriteToMessageBox(universe, "What Weapon will you use?", true);
             Console.SetCursorPosition(6, 47);
             Console.Write(Adventurer.Weapon.Bow);
             Console.SetCursorPosition(6, 48);
@@ -296,25 +310,57 @@ namespace SlimeQuest
 
 
             adventurer.Health = 100;
+            adventurer.MaxHealth = 100;
             adventurer.MapLocation = Adventurer.Location.TutTown;
             adventurer.Xpos = 55;
             adventurer.Ypos = 26;
             adventurer.InaHouse = false;
             adventurer.InHouseName = House.houseName.None;
 
-            adventurer.QuestCompletion = Adventurer.InstantiateQuests();
 
+
+            adventurer.QuestCompletion = Adventurer.InstantiateQuests();
             adventurer.PreviousLocations = new List<Humanoid.Location> { Humanoid.Location.TutTown };
 
-            adventurer.InventoryPageNumber = 0;
             adventurer.Coins = 20;
             adventurer.ItemsDictionary = Adventurer.InstantiateInventory();
             adventurer.QuestDone = Adventurer.InstantiateQuestCompletionMessageCheck();
 
+            if ((adventurer.PlayerWeapon == Adventurer.Weapon.BroadSword) || (adventurer.PlayerWeapon == Adventurer.Weapon.Sword))
+            {
+                adventurer.Damage = 7;
+            }
+            else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Dagger))
+            {
+                adventurer.Damage = 5;
+            }
+            else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Bow))
+            {
+                adventurer.Damage = 9;
+            }
+            else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Mace))
+            {
+                adventurer.Damage = 11;
+            }
+            else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Staff))
+            {
+                adventurer.Damage = 10;
+            }
+
+            adventurer.playerWin = false;
+
+            adventurer.PlayerLevel = 1;
+            adventurer.Experinece = 0;
+            adventurer.MaxExperience = 100;
+            adventurer.CurrentQuest = Adventurer.Quest.MeetTheOldMan;
+
+            adventurer.diedOnFinal = false;
+
+            RemoveBox(universe,5);
             return adventurer;
         }
         #endregion
-
+        
 
 
         public static void DisplayPlayerInfo(Adventurer adventurer)
@@ -330,7 +376,13 @@ namespace SlimeQuest
             Console.SetCursorPosition(110, 14);
             Console.Write("Certified weapon: " + adventurer.PlayerWeapon);
             Console.SetCursorPosition(110, 15);
-            Console.Write("Coins: " + adventurer.Coins + "          ");
+            Console.Write("Coins: " + adventurer.Coins + "        ");
+            Console.SetCursorPosition(110, 16);
+            Console.Write("Level: " + adventurer.PlayerLevel + "        ");
+            Console.SetCursorPosition(110, 17);
+            Console.Write("Experience: " + adventurer.Experinece + " / " + adventurer.MaxExperience + "       ");
+
+            
         }
 
         /// <summary>
@@ -349,7 +401,7 @@ namespace SlimeQuest
         {
             RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate menu using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate menu using numbers");
 
             Console.SetCursorPosition(112,32);
             Console.Write("1. Talk");
@@ -370,7 +422,7 @@ namespace SlimeQuest
         {
             RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate using numbers");
 
             Console.SetCursorPosition(112, 32);
             Console.Write("1. Health Potioin = 20 Coins");
@@ -389,7 +441,7 @@ namespace SlimeQuest
         public static void DisplayInventory(Dictionary<Item.Items,int> itemList)
         {
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate Inventory using numbers");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -413,7 +465,7 @@ namespace SlimeQuest
         {
             RemoveContent(universe, 3);
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate menu using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate menu using numbers");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -439,7 +491,7 @@ namespace SlimeQuest
         public static void DisplayInventory(Item.Items[] names, int[] values)
         {
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate Inventory using numbers");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -461,7 +513,7 @@ namespace SlimeQuest
         public static void DisplayMerchantWares(List<Item.Items> itemList)
         {
             Console.SetCursorPosition(110, 30);
-            Console.Write("Navigate Inventory using numbers(ex:1,2,3,4...)");
+            Console.Write("Navigate Inventory using numbers");
 
             int invYlvl = 32;
             int itmNo = 1;
@@ -500,9 +552,9 @@ namespace SlimeQuest
         public static void DisplayPosition( Adventurer adventurer)
         {
             Console.SetCursorPosition(110, 20);
-            Console.Write( "X: " + adventurer.Xpos);
+            Console.Write( "X: " + adventurer.Xpos + "   ");
             Console.SetCursorPosition(110, 21);
-            Console.Write( "Y: " + adventurer.Ypos);
+            Console.Write( "Y: " + adventurer.Ypos + "   ");
         }
         /// <summary>
         /// Displays your current quest
@@ -515,6 +567,11 @@ namespace SlimeQuest
             Console.SetCursorPosition(110, 22);
             Console.Write(quest);
         }
+
+        /// <summary>
+        /// Displays the town description
+        /// </summary>
+        /// <param name="universe"></param>
         public static void DisplayTownDesc(Universe universe)
         {
 
@@ -663,6 +720,12 @@ namespace SlimeQuest
             Console.Write("                 ");
             Console.SetCursorPosition(3, 6);
             Console.Write(eventMsg);
+        }
+
+        public static void WriteToNpcNameBox(string name)
+        {
+            Console.SetCursorPosition(7,41);
+            Console.Write(name);
         }
 
         //WARNING, THis does not set everything as a string(Regrettably) It seperates the text into however many number of spaces and extends the list each time it reaches (Whatever you set the character limit number to)

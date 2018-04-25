@@ -12,7 +12,8 @@ namespace SlimeQuest
         {
             Counter,
             Desk,
-            Table
+            Table,
+            Bed
 
         }
 

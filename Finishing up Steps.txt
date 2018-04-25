@@ -10,11 +10,14 @@
  of the events in case the npc movement falls through. 
 
 3. Get my good ol' battle system up and running from the 
- previous version, more than likely redesigning a few methods
- to make sure it melds well with the new window setup and 
+ previous version, more than likely redesigning a few methods 
+ to make sure it melds well with the new window setup and  DONE
  other new control features. 
 
-ADD IN POWERFUL ATTACK that deal 40 damage >:) Normal damage 5-10
+WORKING ON IT gotta balance out the enemy encounter rate DONE
+
+
+ADD IN POWERFUL ATTACK that deal 40 damage >:) Normal damage 5-10 DONE
 
 4. Provide support for the numbers above the computer 
  and not just the numbers on the numpad. 
@@ -42,3 +45,48 @@ The cave is endgame and will have 4 enemies to fight.
  On their toes as they lost slime over time and drinking a mana potion will
  replenish their slime body and allow them to keep form and flesh out the classes
  MUCH more than they are right now.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CHECK THE MERCHANT HOUSE LEAVE HOUSE THING
+
+
+FIX INFINITE ROCK THROWING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

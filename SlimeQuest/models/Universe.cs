@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SlimeQuest
 {
@@ -16,6 +17,8 @@ namespace SlimeQuest
         public HouseLayout[] HouseLayouts { get; set; }
         public List<Furniture> FurnitureList { get; set; }
         public List<Item> ItemList { get; set; }
+        public List<BadGuy> TripleTrouble { get; set; }
+
 
 
         private HouseLayout[] InitializeHouseTypes()
@@ -71,7 +74,53 @@ namespace SlimeQuest
                     HouseLoc = Humanoid.Location.TutTown,
                     HouseName = House.houseName.Market,
                     HouseColor = ConsoleColor.Blue
-                }
+                },
+
+
+                new House
+                {
+                    Xpos = 26,
+                    Ypos = 23,
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{29,26},
+                    Houselayout = HouseLayout.Type.House1,
+                    HouseLoc = Humanoid.Location.CherryGrove,
+                    HouseName = House.houseName.CerriHouse,
+                    HouseColor = ConsoleColor.DarkMagenta
+                },
+                new House
+                {
+                    Xpos = 36,
+                    Ypos = 33,
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{39,36},
+                    Houselayout = HouseLayout.Type.House1,
+                    HouseLoc = Humanoid.Location.CherryGrove,
+                    HouseName = House.houseName.AristaHouse,
+                    HouseColor = ConsoleColor.Red
+                },
+                new House
+                {
+                    Xpos = 70,
+                    Ypos = 23,
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{73,26},
+                    Houselayout = HouseLayout.Type.House1,
+                    HouseLoc = Humanoid.Location.CherryGrove,
+                    HouseName = House.houseName.Market,
+                    HouseColor = ConsoleColor.Blue
+                },
+                new House
+                {
+                    Xpos = 65,
+                    Ypos = 33,
+                    PlayerInside = false,
+                    EnterPosition = new int[2]{68,36},
+                    Houselayout = HouseLayout.Type.House1,
+                    HouseLoc = Humanoid.Location.CherryGrove,
+                    HouseName = House.houseName.AmastaHouse,
+                    HouseColor = ConsoleColor.DarkRed
+                },
             };
             return HouseList;
         }
@@ -130,6 +179,27 @@ namespace SlimeQuest
                     Xpos = 71,
                     Ypos = 19
                 },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Bed,
+                    House = House.houseName.PlayerHome,
+                    Xpos = 74,
+                    Ypos = 18
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Desk,
+                    House = House.houseName.PlayerHome,
+                    Xpos = 35,
+                    Ypos = 20
+                },
+                new Furniture
+                {
+                    FurnituretOb = Furniture.FurnitureType.Table,
+                    House = House.houseName.PlayerHome,
+                    Xpos = 40,
+                    Ypos = 20
+                },
             };
             return furniture;
         }
@@ -181,7 +251,7 @@ namespace SlimeQuest
                     CharIcon = "*",
                     Plant = Foiliage.plantType.Grass,
                     Color = ConsoleColor.Green,
-                    Location = Humanoid.Location.DefaultNameTown
+                    Location = Humanoid.Location.CherryGrove
                 },
                 new Foiliage
                 {
@@ -200,7 +270,62 @@ namespace SlimeQuest
                     Plant = Foiliage.plantType.Grass,
                     Color = ConsoleColor.Green,
                     Location = Humanoid.Location.TutTown
-                }
+                },
+
+                new Foiliage
+                {
+                    XPos = 31,
+                    YPos = 12,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
+                new Foiliage
+                {
+                    XPos = 23,
+                    YPos = 18,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
+                new Foiliage
+                {
+                    XPos = 90,
+                    YPos = 18,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
+                new Foiliage
+                {
+                    XPos = 94,
+                    YPos = 28,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
+                new Foiliage
+                {
+                    XPos = 87,
+                    YPos = 38,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Tree,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
+                new Foiliage
+                {
+                    XPos = 51,
+                    YPos = 20,
+                    CharIcon = "*",
+                    Plant = Foiliage.plantType.Fountain,
+                    Color = ConsoleColor.Green,
+                    Location = Humanoid.Location.CherryGrove
+                },
             };
             return FoiliageList;
         }
@@ -218,10 +343,14 @@ namespace SlimeQuest
                     {
                         "Hello, My name is OLD MAN",
                         "I am the great elder of this village",
+                        "Items are represented as +",
+                        "People are represented as a letter of the alphabet",
+                        "Follow quests to complete the game",
+                        "Other towns are represented by numbers",
                         "How may I assist you young one"
                     },
                     listCurrent = 0,
-                    listMax = 3,
+                    listMax = 7,
                     Gender = true,
                     MapLocation = Humanoid.Location.TutTown,
                     InHouseName = House.houseName.None,
@@ -238,7 +367,7 @@ namespace SlimeQuest
                     {
                         $"Hello, My name is Jerry. ",
                         "Hey, Have you seen outside the town yet? I hear it looks like a wasteland out there.",
-                        "I dont know why I cannot move..."
+                        "I have been glued to the ground..."
                     },
                     listCurrent = 0,
                     listMax = 3,
@@ -256,28 +385,28 @@ namespace SlimeQuest
                     charIcon = "S",
                     greeting = "Unusual?",
                     Gender = true,
-                    MapLocation = Humanoid.Location.MainWorld,
+                    MapLocation = Humanoid.Location.TutTown,
                     messages = new List<string>{
                         "HI! My name is Sarah... I dunno where I am at.."
                         },
                     InHouseName = House.houseName.None,
                     listCurrent = 0,
                     listMax = 1,
-                    Xpos = 30,
-                    Ypos = 20,
+                    Xpos = 35,
+                    Ypos = 40,
                     PlayerRace = Humanoid.Race.Elve
                 },
                 new NPC
                 {
-                    Name = "TestName",
-                    charIcon = "O",
+                    Name = "Petchka",
+                    charIcon = "P",
                     greeting = "Hello traveller, Are you fairing well?",
                     Gender = true,
                     MapLocation = Humanoid.Location.Cave,
                     InHouseName = House.houseName.None,
                     messages = new List<string>
                     {
-                        "Please leave my cave.."
+                        "Please leave my cave..."
                     },
                     listCurrent = 0,
                     listMax = 1,
@@ -304,8 +433,125 @@ namespace SlimeQuest
                     Ypos = 18,
                     PlayerRace = Humanoid.Race.Human
                 },
+                new NPC
+                {
+                    Name = "Cerri",
+                    charIcon = "C",
+                    greeting = "Hello traveller, Are you fairing well?",
+                    messages = new List<string>
+                    {
+                        "Hi, I lost my parcel. Could you please find it for me? ",
+                        "Have you found my parcel",
+                        "Please find my parcel"
+                    },
+                    listCurrent = 0,
+                    listMax = 3,
+                    Gender = false,
+                    MapLocation = Humanoid.Location.CherryGrove,
+                    InHouseName = House.houseName.None,
+                    Xpos = 35,
+                    Ypos = 18,
+                    PlayerRace = Humanoid.Race.Elve
+                },
+                new NPC
+                {
+                    Name = "Amasta",
+                    charIcon = "A",
+                    greeting = "Hello traveller, Are you fairing well?",
+                    messages = new List<string>
+                    {
+                        "Fight Slimes and Level up ",
+                        "Brute strength wins every time",
+                        "HOO RAAAAAHHHH"
+                    },
+                    listCurrent = 0,
+                    listMax = 3,
+                    Gender = true,
+                    MapLocation = Humanoid.Location.None,
+                    InHouseName = House.houseName.AmastaHouse,
+                    Xpos = 38,
+                    Ypos = 18,
+                    PlayerRace = Humanoid.Race.Orc
+                },
+                new NPC
+                {
+                    Name = "Arista",
+                    charIcon = "A",
+                    greeting = "Hello traveller, Are you fairing well?",
+                    messages = new List<string>
+                    {
+                        "Here, Let me heal those wounds of yours",
+                        "How could a little slime hurt you so much?",
+                        "Are you ok?",
+                        "Remember to buy potions befroe entering big battles"
+                    },
+                    listCurrent = 0,
+                    listMax = 3,
+                    Gender = true,
+                    MapLocation = Humanoid.Location.None,
+                    InHouseName = House.houseName.AristaHouse,
+                    Xpos = 40,
+                    Ypos = 25,
+                    PlayerRace = Humanoid.Race.Slime
+                },
             };
             return NPCList;
+        }
+
+        public static List<BadGuy> InitializeAllEvil()
+        {
+            List<BadGuy> TripleTrouble = new List<BadGuy>
+            {
+                new BadGuy
+                {
+                    Defeated = false,
+                    Gender = true,
+                    InHouseName = House.houseName.None,
+                    LastDirection = Humanoid.Direction.DOWN,
+                    LookDirection = Humanoid.Direction.DOWN,
+                    MapLocation = Humanoid.Location.Cave,
+                    Name = "TrioMember 1",
+                    PlayerRace = Humanoid.Race.Slime,
+                    charIcon = "a",
+                    present = false,
+                    Xpos = 53,
+                    Ypos = 22
+
+                },
+                new BadGuy
+                {
+                    Defeated = false,
+                    Gender = false,
+                    InHouseName = House.houseName.None,
+                    LastDirection = Humanoid.Direction.DOWN,
+                    LookDirection = Humanoid.Direction.DOWN,
+                    MapLocation = Humanoid.Location.Cave,
+                    Name = "TrioMember 2",
+                    PlayerRace = Humanoid.Race.Slime,
+                    charIcon = "a",
+                    present = false,
+                    Xpos = 47,
+                    Ypos = 22
+
+                },
+                new BadGuy
+                {
+                    Defeated = false,
+                    Gender = true,
+                    InHouseName = House.houseName.None,
+                    LastDirection = Humanoid.Direction.DOWN,
+                    LookDirection = Humanoid.Direction.DOWN,
+                    MapLocation = Humanoid.Location.Cave,
+                    Name = "TrioMember 3",
+                    PlayerRace = Humanoid.Race.Slime,
+                    charIcon = "a",
+                    present = false,
+                    Xpos = 50,
+                    Ypos = 20
+
+                },
+            };
+            return TripleTrouble;
         }
 
         private List<Item> InitializeAllItems()
@@ -392,6 +638,69 @@ namespace SlimeQuest
                     worldLoc = Humanoid.Location.MainWorld,
                     ItemType = Item.Items.SlimeGel,
                     itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 57,
+                    YPos = 21,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.CherryGrove,
+                    ItemType = Item.Items.Parcel,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 14,
+                    YPos = 24,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.CherryGrove,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 32,
+                    YPos = 16,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.CherryGrove,
+                    ItemType = Item.Items.ManaPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 12,
+                    YPos = 16,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.CherryGrove,
+                    ItemType = Item.Items.Stone,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 39,
+                    YPos = 18,
+                    houseLoc = House.houseName.PlayerHome,
+                    worldLoc = Humanoid.Location.None,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 40,
+                    YPos = 18,
+                    houseLoc = House.houseName.PlayerHome,
+                    worldLoc = Humanoid.Location.None,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
+                },
+                new Item
+                {
+                    XPos = 41,
+                    YPos = 18,
+                    houseLoc = House.houseName.None,
+                    worldLoc = Humanoid.Location.CherryGrove,
+                    ItemType = Item.Items.HealthPotion,
+                    itemTaken = false
                 }
             }; 
             return ItemList;
@@ -412,10 +721,10 @@ namespace SlimeQuest
                 },
                 new Towns
                 {
-                    TownLocName = Humanoid.Location.DefaultNameTown,
+                    TownLocName = Humanoid.Location.CherryGrove,
                     InTown = false,
                     MapIcon = "2",
-                    TownDesc = "A small town with a few houses, trees, bushes, and some people standing around",
+                    TownDesc = "A small town with a few houses, trees, bushes, a fountain in the middle of the town and some people standing around",
                     Xpos = 70,
                     Ypos = 40
                 },
@@ -433,7 +742,7 @@ namespace SlimeQuest
                     TownLocName = Humanoid.Location.Cave,
                     InTown = false,
                     MapIcon = "C",
-                    TownDesc = "A dark cave, Air feels moist... ",
+                    TownDesc = "A dark cave... Air feels moist... ",
                     Xpos = 50,
                     Ypos = 15
                 }
@@ -453,7 +762,7 @@ namespace SlimeQuest
                 HouseLayouts = InitializeHouseTypes(),
                 FurnitureList = InitializeAllFurniture(),
                 ItemList = InitializeAllItems(),
-                
+                TripleTrouble = InitializeAllEvil(),
                 GameWindows = windows
             };
             
@@ -474,6 +783,7 @@ namespace SlimeQuest
             return townDesc;
 
         }
+        
 
     }
 }

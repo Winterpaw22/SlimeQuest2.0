@@ -15,34 +15,34 @@ namespace SlimeQuest
         private static bool Attack(Adventurer adventurer, Universe universe, Slime slime)
         {
             Random random = new Random();
-            int damage = 1;
+            int damage = adventurer.Damage;
             bool blocking = false;
             bool tOb = true;
             string attackMsg = "You slap the slime, YEAH F*** THAT GUY. WOOOOOOOOOOOOOOOOOO";
             if ((adventurer.PlayerWeapon == Adventurer.Weapon.BroadSword) || (adventurer.PlayerWeapon == Adventurer.Weapon.Sword))
             {
                 attackMsg = "You swing your " + adventurer.PlayerWeapon + " at the slime";
-                damage = 7;
+                
             }
             else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Dagger))
             {
                 attackMsg = "You stabb the slime with your " + adventurer.PlayerWeapon;
-                damage = 5;
+                
             }
             else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Bow))
             {
                 attackMsg = "You shoot the slime with an arrow";
-                damage = 9;
+                
             }
             else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Mace))
             {
                 attackMsg = "You hit the slime with your " + adventurer.PlayerWeapon;
-                damage = 11;
+                
             }
             else if ((adventurer.PlayerWeapon == Adventurer.Weapon.Staff))
             {
                 attackMsg = "You cast a fire spell on the slime.";
-                damage = 10;
+                
             }
             //
             // PLAYER MENU
@@ -53,7 +53,7 @@ namespace SlimeQuest
 
             TextBoxViews.DisplayCustom(universe,new string[4] { " Attack", " Throw a Rock : " + adventurer.ItemsDictionary[Item.Items.Stone]  ," Block","Use a potion : " + adventurer.ItemsDictionary[Item.Items.HealthPotion]});
 
-            TextBoxViews.ReWriteToMessageBox(universe, "Please choose an action...");
+            TextBoxViews.ReWriteToMessageBox(universe, "Please choose an action...",true);
 
             while (tOb)
             {
@@ -69,11 +69,18 @@ namespace SlimeQuest
                         tOb = false;
                         break;
                     case ConsoleKey.D2:
-                        adventurer.ItemsDictionary[Item.Items.Stone]--;
-                        damage = 2;
-                        TextBoxViews.ReWriteToMessageBox(universe, "You throw a stone at the slime and deal " + damage.ToString() + " damage.");
-                        slime.Health -= damage;
-                        tOb = false;
+                        if (adventurer.ItemsDictionary[Item.Items.Stone] >= 1)
+                        {
+                            adventurer.ItemsDictionary[Item.Items.Stone]--;
+                            damage = 2;
+                            TextBoxViews.ReWriteToMessageBox(universe, "You throw a stone at the slime and deal " + damage.ToString() + " damage.");
+                            slime.Health -= damage;
+                            tOb = false;
+                        }
+                        else
+                        {
+                            TextBoxViews.ReWriteToMessageBox(universe, "You dont have any rocks to throw", true);
+                        }
                         break;
                     case ConsoleKey.D3:
                         TextBoxViews.ReWriteToMessageBox(universe, "You get ready to block the slime's next attack.");
@@ -197,6 +204,7 @@ namespace SlimeQuest
                 if (blocked)
                 {
                     TextBoxViews.ReWriteToMessageBox(universe, "You blocked the slime's attack");
+                    slime.PowerAttack = false;
                 }
                 else if (slime.PowerAttack)
                 {
@@ -237,7 +245,7 @@ namespace SlimeQuest
             do
             {
 
-                TextDrawings.DisplaySlime();
+                TextDrawings.DisplaySlime(slime);
 
                 TextBoxViews.WriteToEvent("Slime : " + slime.Health);
                 TextBoxViews.DisplayPlayerInfo(adventurer);
@@ -257,14 +265,22 @@ namespace SlimeQuest
             {
                 int coinDrop;
                 int gelDrop;
+                int expGain;
 
-                coinDrop = random.Next(5, 15);
+                coinDrop = random.Next(10, 30);
                 gelDrop = random.Next(5, 15);
+                expGain = random.Next(10, slime.ExpGiv);
 
                 TextBoxViews.WriteToMessageBox(universe, $"You have succeeded in battle and have recieved {coinDrop} coins and {gelDrop} gel.");
 
-                adventurer.Coins = adventurer.Coins + coinDrop;
+                adventurer.Coins += coinDrop;
                 adventurer.ItemsDictionary[Item.Items.SlimeGel] += gelDrop;
+                adventurer.Experinece += expGain;
+                if (adventurer.Experinece >= adventurer.MaxExperience)
+                {
+                    Adventurer.PlayerLevelUp(adventurer, universe);
+                }
+
             }
             else
             {
@@ -273,6 +289,7 @@ namespace SlimeQuest
             TextBoxViews.ClearMapBox();
             TextBoxViews.RemoveContent(universe, 3);
             TextBoxViews.DisplayMenu(universe);
+            TextBoxViews.DisplayPlayerInfo(adventurer);
 
             return stillAlive;
         }

@@ -46,12 +46,12 @@ namespace SlimeQuest
                 Console.SetCursorPosition(7, 56);
                 response = Console.ReadLine();
 
-                if ( response.ToLower() == "yes")
+                if ( (response.ToLower() == "yes" )||(response.ToLower() == "y"))
                 {
                     yesno = true;
                     validIntResponse = true;
                 }
-                else if (response.ToLower() == "no")
+                else if ((response.ToLower() == "no") || (response.ToLower() == "n"))
                 {
                     yesno = false;
                     validIntResponse = true;
@@ -139,6 +139,10 @@ namespace SlimeQuest
                         break;
                     case "ORC":
                         race = Adventurer.Race.Orc;
+                        loop = false;
+                        break;
+                    case "ELVE":
+                        race = Adventurer.Race.Elve;
                         loop = false;
                         break;
                     default:

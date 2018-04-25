@@ -52,6 +52,7 @@
     <Compile Include="Controllers\Validators.cs" />
     <Compile Include="Controllers\windowCreator.cs" />
     <Compile Include="models\Adventurer.cs" />
+    <Compile Include="models\BadGuy.cs" />
     <Compile Include="models\Item.cs" />
     <Compile Include="models\Foiliage.cs" />
     <Compile Include="models\Furniture.cs" />

@@ -8,15 +8,16 @@ namespace SlimeQuest
 { 
     class Slime
     {
-        private string _color;
+        private ConsoleColor _color;
         private int _health;
         private int _damage;
 
-        private bool _encounter;
+        public int ExpGiv { get; set; }
+
 
         public bool PowerAttack { get; set; }
 
-        public string Color
+        public ConsoleColor Color
         {
             get { return _color; }
             set { _color = value; }
@@ -51,8 +52,9 @@ namespace SlimeQuest
             {
                 slime.Health = 20;
                 slime.Damage = 10;
-                slime.Color = "green";
+                slime.Color = ConsoleColor.DarkGreen;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 10;
 
             }
             //Red Slime Builder
@@ -60,8 +62,9 @@ namespace SlimeQuest
             {
                 slime.Health = 40;
                 slime.Damage = 18;
-                slime.Color = "red";
+                slime.Color = ConsoleColor.DarkRed;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 20;
 
 
 
@@ -71,8 +74,9 @@ namespace SlimeQuest
             {
                 slime.Health = 30;
                 slime.Damage = 15;
-                slime.Color = "blue";
+                slime.Color = ConsoleColor.DarkBlue;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 15;
             }
 
             //Pine Slime Builder
@@ -81,8 +85,9 @@ namespace SlimeQuest
                 //just in case something goes wrong a slime is still initialized, although a weak one
                 slime.Health = 10;
                 slime.Damage = 5;
-                slime.Color = "pine";
+                slime.Color = ConsoleColor.Green;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 8;
             }
            
         }
@@ -104,8 +109,9 @@ namespace SlimeQuest
             {
                 slime.Health = 20;
                 slime.Damage = 10;
-                slime.Color = "green";
+                slime.Color = ConsoleColor.DarkGreen;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 14;
 
             }
             //Red Slime Builder
@@ -113,8 +119,9 @@ namespace SlimeQuest
             {
                 slime.Health = 20;
                 slime.Damage = 18;
-                slime.Color = "red";
+                slime.Color = ConsoleColor.DarkRed;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 29;
 
 
 
@@ -124,8 +131,9 @@ namespace SlimeQuest
             {
                 slime.Health = 30;
                 slime.Damage = 15;
-                slime.Color = "blue";
+                slime.Color = ConsoleColor.DarkBlue;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 19;
             }
 
             //Pine Slime Builder
@@ -134,11 +142,18 @@ namespace SlimeQuest
                 //just in case something goes wrong a slime is still initialized, although a weak one
                 slime.Health = 10;
                 slime.Damage = 5;
-                slime.Color = "pine";
+                slime.Color = ConsoleColor.Green;
                 slime.PowerAttack = false;
+                slime.ExpGiv = 15;
             }
+
             if (deadlyFirstAttack)
             {
+                slime.Health = 50;
+                slime.Damage = 20;
+                slime.Color = ConsoleColor.DarkMagenta;
+
+                slime.ExpGiv = 50;
                 slime.PowerAttack = true;
             }
         }
